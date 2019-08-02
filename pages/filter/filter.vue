@@ -196,12 +196,13 @@
 						}
 					})
 				})
+				console.log('66666666'+JSON.stringify(choose))
 				choose.forEach((k, l) => { //挑选有条件的筛选要求
 					if (k.options.length >= 1) {
 						choose2.push(k)
 					}
 				})
-				console.log('bbbbbbbbbb9999999'+JSON.stringify(this.listscroll))
+				console.log('bbbbbbbbbb9999999'+JSON.stringify(choose2))
 				Parse.Cloud.run('getFilteredProducts', {
 					choose2
 				}).then(r => { //发送筛选请求
@@ -231,6 +232,7 @@
 				} else {
 					this.listscroll[code].options[index].light = true
 				}
+				// console.log('kkkkkkkkkkkk'+JSON.stringify(this.listscroll))
 				// console.log('qqqqq'+code+'xxxxx'+index);
 				this.$forceUpdate(); //手动跟新数据（数据太多vue跟新不了）
 				

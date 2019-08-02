@@ -9,7 +9,7 @@ const state = {
 		lang:'',
 		hotItems:[],
 		openId: '',
-		
+	    screenResults:[],
 		// Conversation id
 		convoId: {},
 
