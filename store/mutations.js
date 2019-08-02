@@ -48,7 +48,9 @@ const mutations = {
 			state.onlineUser.push(v)
 		}
 	},
-
+	setScreenResults(state, v) {//存储筛选结果
+		state.screenResults = v
+	},
 	reduceOnlineUser(state, v) {
 
 		Array.prototype.indexOf = function(val) {
