@@ -20,7 +20,7 @@
 	{"path": "pages/communityDetail/communityDetail","style": {"navigationBarTitleText": "详情"}},
 	{"path": "pages/garage/garage","style": {"navigationBarTitleText": "我的车库"}},
 	{"path": "pages/filter/filter","style": {"navigationBarTitleText": "筛选过滤"}},
-	
+	{"path": "pages/newInformation/newInformation","style": {"navigationBarTitleText": "消息通知"}},
 	{"path": "pages/timeline/timeline","style": {"navigationBarTitleText": "朋友圈"}},
 	{"path": "pages/categorylist/categorylist","style": {"navigationBarTitleText": "分类详情"}},
 	{"path": "pages/chatDetail/chatDetail","style": {"navigationBarTitleText": "聊天详情"}},

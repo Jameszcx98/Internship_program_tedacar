@@ -120,6 +120,14 @@
 							</navigator>
 						</view>
 
+
+						<view class="cu-item arrow">
+							<navigator class="content" hover-class="none" @tap="jump('newInformation')">
+								<text class="cuIcon-notification text-black"></text>
+								<text class="text-grey">消息通知</text>
+							</navigator>
+						</view>
+						
 						<view class="cu-item arrow">
 							<navigator class="content" hover-class="none" @tap="jump('order')">
 								<text class="cuIcon-moneybag text-black"></text>

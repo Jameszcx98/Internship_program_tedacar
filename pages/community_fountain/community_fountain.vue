@@ -152,7 +152,7 @@ export default {
 			skipone:0,
 			skiptwo:0,
 			skipthree:0,
-			temp:'',
+			default:true,//进入页面默认follow
 			
 			
 			
@@ -160,7 +160,14 @@ export default {
 	},
 	
 	onShow(){
-		this.getStatus(0)
+		if(this.signone||this.default){
+			this.getStatus(0)
+			this.default = false
+		}else if(this.signtwo){
+			this.getStatushot(0)
+		}else if(this.signthree){
+			this.getStatusme(0)
+		}
     
 	},
 	
@@ -189,84 +196,59 @@ export default {
 	methods: {
 		getStatus(skipnumber) {
 			if (skipnumber==0){
+			this.bookListone = []
 			this.skipone =0
 			}else{
 			this.skipone+=skipnumber;
 			}
 			Parse.Cloud.run('getStatus',{number:this.skipone})
 				.then(r => {
-					if(r==false){
-						this.bookListone=[]
-					}else{
 					this.skiptwo = 0
 					this.skipthree = 0
-					this.temp = r.map(x => {
+					r.map(x => {
 						let y = x._toFullJSON();
 						if(y.image!=null){
 						y.poster = y.image[0];
 						}
 						let t =  new Date(y.createdAt);
 						y.time = t.toLocaleString();
-						return y;
+						this.bookListone.push(y)
 					});
-					if(skipnumber==0){
-					this.bookListone = []
-					this.temp.map(x=>{
-						this.bookListone.push(x)
-					})
-					}else{
-					this.temp.map(x=>{
-					this.bookListone.push(x)
-					})		
-					}
 					this.signone = true
 					this.signtwo = false
 					this.signthree = false
-					}
 				})
 				.catch(e => {
-					t
+					
 					console.log('????' + JSON.stringify(e));
 				});
 		},
 		getStatushot(skipnumber) {
 			if (skipnumber==0){
+			this.bookListtwo = []
 			this.skiptwo =0
 			}else{
 			this.skiptwo+=skipnumber;
 			}
 			Parse.Cloud.run('getStatushot',{number:this.skiptwo})
 				.then(r => {
-					if(r==false){
-						this.bookListtwo=[]
-					}else{
 					this.skipthree = 0
 					this.skipone = 0
 					console.log(r)
 					let i=0;
-					this.temp= r.map(x => {
+					r.map(x => {
 						let y = x._toFullJSON();
 						if(y.image!=null){
 						y.poster = y.image[0];
 						}
 						let t =  new Date(y.createdAt);
 						y.time = t.toLocaleString();
-						return y;
+						this.bookListtwo.push(y);
 					});
 					this.signone = false
 					this.signtwo = true
 					this.signthree = false
-					if(skipnumber==0){
-					this.bookListtwo = []
-					this.temp.map(x=>{
-						this.bookListtwo.push(x)
-					})
-					}else{
-					this.temp.map(x=>{
-						this.bookListtwo.push(x)
-					})	
-					}
-					}
+					
 				})
 				.catch(e => {
 					console.log('????' + JSON.stringify(e));
@@ -275,42 +257,28 @@ export default {
 		},
 		getStatusme(skipnumber) {
 			if (skipnumber==0){
+			this.bookListthree = []
 			this.skipthree =0
 			}else{
 			this.skipthree+=skipnumber;
 			}
 			Parse.Cloud.run('getStatusme',{number:this.skipthree})
 				.then(r => {
-					if(r==false){
-						this.bookListthree=[]
-					}else{
 					this.skiptwo = 0
 					this.skipone = 0
-					let i=0;
 					this.temp= r.map(x => {
 						let y = x._toFullJSON();
 						if(y.image!=null){
 						y.poster = y.image[0];
 						}
-						
 						let t =  new Date(y.createdAt);
 						y.time = t.toLocaleString();
-						return y;
+						this.bookListthree.push(y)
 					});
 					this.signone = false
 					this.signtwo = false
 					this.signthree = true
-					if(skipnumber==0){
-					this.bookListthree = []
-					this.temp.map(x=>{
-						this.bookListthree.push(x)
-					})
-					}else{
-					this.temp.map(x=>{
-						this.bookListthree.push(x)
-					})	
-					}
-					}
+					
 				})
 				.catch(e => {
 					console.log('????' + JSON.stringify(e));
