@@ -81,7 +81,7 @@ export default {
 					// 阿里云oos上传目录(必须存在)
 					oosDirectory: 'post_pictures',
 					// 阿里云上传url
-					url: 'http://tedacar.oss-us-east-1.aliyuncs.com/'
+					url: 'https://tedacar.oss-us-east-1.aliyuncs.com/'
 				},
 				// 是否开启notli(开启的话就是选择完直接上传，关闭的话当count满足数量时才上传)
 				notli: true,
@@ -194,7 +194,7 @@ export default {
 				var i=0;
 				for(var key in this.oosArr)
 				{
-					let reg=new RegExp('http://tedacar.oss-us-east-1.aliyuncs.com/');
+					let reg=new RegExp('https://tedacar.oss-us-east-1.aliyuncs.com/');
 				    temp.push(this.oosArr[i].toString().replace(reg,''));
 					i++;
 				}
