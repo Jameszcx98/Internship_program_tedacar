@@ -114,7 +114,7 @@
 
 
 		methods: {
-			getCarlist(){
+			getMyCarlist(){
 				
 				Parse.Cloud.run('getMyCarlist').then(r => {
 					console.log("r:",r)

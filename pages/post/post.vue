@@ -338,10 +338,10 @@
 			
 			
 			//页面加载时渲染品牌下拉框 这一段之后要移到carBrand.vue的onload中 点击那个页面的时候渲染
-			Parse.Cloud.run('showCarList',{}).then( r=>{
-				 this.carbrandlist = r
-				 console.log("carbrandlist:",this.carbrandlist)
-			}).catch( e => console.log("e:",e))
+			// Parse.Cloud.run('showCarList',{}).then( r=>{
+			// 	 this.carbrandlist = r
+			// 	 console.log("carbrandlist:",this.carbrandlist)
+			// }).catch( e => console.log("e:",e))
 			
 
 		},
