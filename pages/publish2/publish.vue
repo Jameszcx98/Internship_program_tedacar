@@ -76,7 +76,7 @@ export default {
 					// 阿里云oos上传目录(必须存在)
 					oosDirectory: 'post_pictures',
 					// 阿里云上传url
-					url: 'http://tedacar.oss-us-east-1.aliyuncs.com/'
+					url: 'https://tedacar.oss-us-east-1.aliyuncs.com/'
 				},
 				// 是否开启notli(开启的话就是选择完直接上传，关闭的话当count满足数量时才上传)
 				notli: true,

@@ -196,7 +196,7 @@
 						}
 					})
 				})
-				console.log('66666666'+JSON.stringify(choose))
+				// console.log('66666666'+JSON.stringify(choose))
 				choose.forEach((k, l) => { //挑选有条件的筛选要求
 					if (k.options.length >= 1) {
 						choose2.push(k)
@@ -249,7 +249,7 @@
 					this.listscroll.forEach((z, k) => { //增加ID用于滑动
 						z.numId = k
 					})
-					console.log('000000' + JSON.stringify(this.listscroll))
+					// console.log('000000' + JSON.stringify(this.listscroll))
 				}).catch(e => {
 					console.log("xxxxxx" + JSON.stringify(e));
 				})

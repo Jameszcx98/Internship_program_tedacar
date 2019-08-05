@@ -68,7 +68,7 @@ export default{
 			favorList:[],
 			skipnumber:0,
 			temp:[],
-			tempaddr:'http://tedacar.oss-us-east-1.aliyuncs.com/',
+			tempaddr:'https://tedacar.oss-us-east-1.aliyuncs.com/',
 			
 		};
 	},

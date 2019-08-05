@@ -132,42 +132,42 @@ import { mapState } from 'vuex';
 import data from '@/common/data.js'
 
 export default {
- 
- data() {
-  return {
-   status: [],
-   modalName: null,
-   CustomBar: this.CustomBar, // vue 对象上
-            tempaddr:'http://tedacar.oss-us-east-1.aliyuncs.com/',
-   TabCur: 0,
-   scrollLeft: 0,
-   bookListone:[],
-   bookListtwo:[],
-   bookListthree:[],
-   objectId:'',
-   like:'',
-   signone:'',
-   signtwo:'',
-   signthree:'',
-   skipone:0,
-   skiptwo:0,
-   skipthree:0,
-   default:true,//进入页面默认follow
-   
-   
-   
-  };
- },
- 
- onShow(){
-  if(this.signone||this.default){
-   this.getStatus(0)
-   this.default = false
-  }else if(this.signtwo){
-   this.getStatushot(0)
-  }else if(this.signthree){
-   this.getStatusme(0)
-  }
+	
+	data() {
+		return {
+			status: [],
+			modalName: null,
+			CustomBar: this.CustomBar, // vue 对象上
+            tempaddr:'https://tedacar.oss-us-east-1.aliyuncs.com/',
+			TabCur: 0,
+			scrollLeft: 0,
+			bookListone:[],
+			bookListtwo:[],
+			bookListthree:[],
+			objectId:'',
+			like:'',
+			signone:'',
+			signtwo:'',
+			signthree:'',
+			skipone:0,
+			skiptwo:0,
+			skipthree:0,
+			default:true,//进入页面默认follow
+			
+			
+			
+		};
+	},
+	
+	onShow(){
+		if(this.signone||this.default){
+			this.getStatus(0)
+			this.default = false
+		}else if(this.signtwo){
+			this.getStatushot(0)
+		}else if(this.signthree){
+			this.getStatusme(0)
+		}
     
  },
  
@@ -182,258 +182,258 @@ export default {
     },
  
   
- onPullDownRefresh: function (){
-  if(this.signone){
-   this.getStatus(0)
-  }else if(this.signtwo){
-   this.getStatushot(0)
-  }else if(this.signthree){
-   this.getStatusme(0)
-  }
-  
-  
- },
- methods: {
-  getStatus(skipnumber) {
-   if (skipnumber==0){
-   this.bookListone = []
-   this.skipone =0
-   }else{
-   this.skipone+=skipnumber;
-   }
-   Parse.Cloud.run('getStatus',{number:this.skipone})
-    .then(r => {
-     this.skiptwo = 0
-     this.skipthree = 0
-     r.map(x => {
-      let y = x._toFullJSON();
-      if(y.image!=null){
-      y.poster = y.image[0];
-      }
-      let t =  new Date(y.createdAt);
-      y.time = t.toLocaleString();
-      this.bookListone.push(y)
-     });
-     this.signone = true
-     this.signtwo = false
-     this.signthree = false
-    })
-    .catch(e => {
-     
-     console.log('????' + JSON.stringify(e));
-    });
-  },
-  getStatushot(skipnumber) {
-   if (skipnumber==0){
-   this.bookListtwo = []
-   this.skiptwo =0
-   }else{
-   this.skiptwo+=skipnumber;
-   }
-   Parse.Cloud.run('getStatushot',{number:this.skiptwo})
-    .then(r => {
-     this.skipthree = 0
-     this.skipone = 0
-     console.log(r)
-     let i=0;
-     r.map(x => {
-      let y = x._toFullJSON();
-      if(y.image!=null){
-      y.poster = y.image[0];
-      }
-      let t =  new Date(y.createdAt);
-      y.time = t.toLocaleString();
-      this.bookListtwo.push(y);
-     });
-     this.signone = false
-     this.signtwo = true
-     this.signthree = false
-     
-    })
-    .catch(e => {
-     console.log('????' + JSON.stringify(e));
-    });
-    
-  },
-  getStatusme(skipnumber) {
-   if (skipnumber==0){
-   this.bookListthree = []
-   this.skipthree =0
-   }else{
-   this.skipthree+=skipnumber;
-   }
-   Parse.Cloud.run('getStatusme',{number:this.skipthree})
-    .then(r => {
-     this.skiptwo = 0
-     this.skipone = 0
-     this.temp= r.map(x => {
-      let y = x._toFullJSON();
-      if(y.image!=null){
-      y.poster = y.image[0];
-      }
-      let t =  new Date(y.createdAt);
-      y.time = t.toLocaleString();
-      this.bookListthree.push(y)
-     });
-     this.signone = false
-     this.signtwo = false
-     this.signthree = true
-     
-    })
-    .catch(e => {
-     console.log('????' + JSON.stringify(e));
-    }); 
-  },
-  publishContent() {
-   let p = {
-    targetName: 'Publish', // 留言的对象名字
-    pageTitle: this.$t('index.comPubTitle'),
-    title: true,
-    type: 'postStatus',
-    tip: '',
-    desc: ''
-   };
-   uni.navigateTo({
-    url: '../publish/publish?' + toParams(p)
-   });
-  },
-  showModal(e) {
-   this.modalName = e.currentTarget.dataset.target;
-  },
-  hideModal(e) {
-   this.modalName = null;
-  },
-  toDetail(e) {
-   console.log('e' + JSON.stringify(e));
-   let id = e.mp.currentTarget.dataset.id;
-   uni.navigateTo({
-    url: `../communityDetail/communityDetail?id=${id}`
-   });
-  },
-  jump(pageName) {
-   uni.navigateTo({
-    url: `../${pageName}/${pageName}`,
-    success: res => {},
-    fail: () => {},
-    complete: () => {}
-   });
-  },
-  tabSelect(e) {
-   this.TabCur = e.currentTarget.dataset.id;
-   this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
-  },
-  
-  addLike(e){
-   let targetId = e.mp.currentTarget.dataset.id;
-   let targetName = e.mp.currentTarget.dataset.name;
-   Parse.Cloud.run('addLike',{
-    id:targetId,
-    name:targetName
-   }).then( r => {
-    this.objectId = r._toFullJSON().objectId;
-    this.bookListone.map( x=>{
-     if(x.objectId==this.objectId){
-     ++x.like
-     x.redheart=true
-     }
-    });
-    this.bookListtwo.map( x=>{
-     if(x.objectId==this.objectId){
-      ++x.like
-      x.redheart=true
-     }
-    });
-    this.bookListthree.map( x=>{
-     if(x.objectId==this.objectId){
-      ++x.like
-      x.redheart=true
-     }
-    });
-    
-   }).catch( e => {
-    console.log('e' + JSON.stringify(e));
-   });
-  },
-  
-  addFavor(e){
-   let targetId = e.mp.currentTarget.dataset.id
-   let targetName = e.mp.currentTarget.dataset.name
-   Parse.Cloud.run('addFavor',{
-    id:targetId,
-    name:targetName
-   }).then( r=>{
-    this.objectId = r._toFullJSON().objectId;
-    this.bookListone.map( x=>{
-     if(x.objectId==this.objectId){
-      this.$nextTick(()=>{
-       x.favor++
-       x.redfavor=true
-      })
-     
-     }
-    });
-    this.bookListtwo.map( x=>{
-     if(x.objectId==this.objectId){
-      x.favor++
-      x.redfavor=true
-     }
-    });
-    this.bookListthree.map( x=>{
-     if(x.objectId==this.objectId){
-     this.$nextTick(()=>{
-      x.favor++
-      x.redfavor=true
-     })
-     }
-    }); 
-     }).catch( e => {
-      console.log('e???????' + JSON.stringify(e));
-     });
-    },
-  
-  subFavor(e){
-   let targetId = e.mp.currentTarget.dataset.id
-   let targetName = e.mp.currentTarget.dataset.name
-   Parse.Cloud.run('subFavor',{
-    id:targetId,
-    name:targetName
-   }).then( r=>{
-    this.objectId = r._toFullJSON().objectId;
-    this.bookListone.map( x=>{
-     if(x.objectId==this.objectId){
-      this.$nextTick(()=>{
-       x.favor--
-       x.redfavor=false
-      })
-     
-     }
-    });
-    this.bookListtwo.map( x=>{
-     if(x.objectId==this.objectId){
-      x.favor--
-      x.redfavor=false
-     }
-    });
-    this.bookListthree.map( x=>{
-     if(x.objectId==this.objectId){
-     this.$nextTick(()=>{
-      x.favor--
-      x.redfavor=false
-     })
-     }
-    }); 
-     }).catch( e => {
-      console.log('e???????' + JSON.stringify(e));
-     });
-    },
-  },
-  
-  
-   
-  
-  
-  
- 
+	onPullDownRefresh: function (){
+		if(this.signone){
+			this.getStatus(0)
+		}else if(this.signtwo){
+			this.getStatushot(0)
+		}else if(this.signthree){
+			this.getStatusme(0)
+		}
+		
+		
+	},
+	methods: {
+		getStatus(skipnumber) {
+			if (skipnumber==0){
+			this.bookListone = []
+			this.skipone =0
+			}else{
+			this.skipone+=skipnumber;
+			}
+			Parse.Cloud.run('getStatus',{number:this.skipone})
+				.then(r => {
+					this.skiptwo = 0
+					this.skipthree = 0
+					r.map(x => {
+						let y = x._toFullJSON();
+						if(y.image!=null){
+						y.poster = y.image[0];
+						}
+						let t =  new Date(y.createdAt);
+						y.time = t.toLocaleString();
+						this.bookListone.push(y)
+					});
+					this.signone = true
+					this.signtwo = false
+					this.signthree = false
+				})
+				.catch(e => {
+					
+					console.log('????' + JSON.stringify(e));
+				});
+		},
+		getStatushot(skipnumber) {
+			if (skipnumber==0){
+			this.bookListtwo = []
+			this.skiptwo =0
+			}else{
+			this.skiptwo+=skipnumber;
+			}
+			Parse.Cloud.run('getStatushot',{number:this.skiptwo})
+				.then(r => {
+					this.skipthree = 0
+					this.skipone = 0
+					console.log(r)
+					let i=0;
+					r.map(x => {
+						let y = x._toFullJSON();
+						if(y.image!=null){
+						y.poster = y.image[0];
+						}
+						let t =  new Date(y.createdAt);
+						y.time = t.toLocaleString();
+						this.bookListtwo.push(y);
+					});
+					this.signone = false
+					this.signtwo = true
+					this.signthree = false
+					
+				})
+				.catch(e => {
+					console.log('????' + JSON.stringify(e));
+				});
+				
+		},
+		getStatusme(skipnumber) {
+			if (skipnumber==0){
+			this.bookListthree = []
+			this.skipthree =0
+			}else{
+			this.skipthree+=skipnumber;
+			}
+			Parse.Cloud.run('getStatusme',{number:this.skipthree})
+				.then(r => {
+					this.skiptwo = 0
+					this.skipone = 0
+					this.temp= r.map(x => {
+						let y = x._toFullJSON();
+						if(y.image!=null){
+						y.poster = y.image[0];
+						}
+						let t =  new Date(y.createdAt);
+						y.time = t.toLocaleString();
+						this.bookListthree.push(y)
+					});
+					this.signone = false
+					this.signtwo = false
+					this.signthree = true
+					
+				})
+				.catch(e => {
+					console.log('????' + JSON.stringify(e));
+				});	
+		},
+		publishContent() {
+			let p = {
+				targetName: 'Publish', // 留言的对象名字
+				pageTitle: this.$t('index.comPubTitle'),
+				title: true,
+				type: 'postStatus',
+				tip: '',
+				desc: ''
+			};
+			uni.navigateTo({
+				url: '../publish/publish?' + toParams(p)
+			});
+		},
+		showModal(e) {
+			this.modalName = e.currentTarget.dataset.target;
+		},
+		hideModal(e) {
+			this.modalName = null;
+		},
+		toDetail(e) {
+			console.log('e' + JSON.stringify(e));
+			let id = e.mp.currentTarget.dataset.id;
+			uni.navigateTo({
+				url: `../communityDetail/communityDetail?id=${id}`
+			});
+		},
+		jump(pageName) {
+			uni.navigateTo({
+				url: `../${pageName}/${pageName}`,
+				success: res => {},
+				fail: () => {},
+				complete: () => {}
+			});
+		},
+		tabSelect(e) {
+			this.TabCur = e.currentTarget.dataset.id;
+			this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
+		},
+		
+		addLike(e){
+			let targetId = e.mp.currentTarget.dataset.id;
+			let targetName = e.mp.currentTarget.dataset.name;
+			Parse.Cloud.run('addLike',{
+				id:targetId,
+				name:targetName
+			}).then( r => {
+				this.objectId = r._toFullJSON().objectId;
+				this.bookListone.map( x=>{
+					if(x.objectId==this.objectId){
+					++x.like
+					x.redheart=true
+					}
+				});
+				this.bookListtwo.map( x=>{
+					if(x.objectId==this.objectId){
+						++x.like
+						x.redheart=true
+					}
+				});
+				this.bookListthree.map( x=>{
+					if(x.objectId==this.objectId){
+						++x.like
+						x.redheart=true
+					}
+				});
+				
+			}).catch( e => {
+				console.log('e' + JSON.stringify(e));
+			});
+		},
+		
+		addFavor(e){
+			let targetId = e.mp.currentTarget.dataset.id
+			let targetName = e.mp.currentTarget.dataset.name
+			Parse.Cloud.run('addFavor',{
+				id:targetId,
+				name:targetName
+			}).then( r=>{
+				this.objectId = r._toFullJSON().objectId;
+				this.bookListone.map( x=>{
+					if(x.objectId==this.objectId){
+						this.$nextTick(()=>{
+							x.favor++
+							x.redfavor=true
+						})
+					
+					}
+				});
+				this.bookListtwo.map( x=>{
+					if(x.objectId==this.objectId){
+						x.favor++
+						x.redfavor=true
+					}
+				});
+				this.bookListthree.map( x=>{
+					if(x.objectId==this.objectId){
+					this.$nextTick(()=>{
+						x.favor++
+						x.redfavor=true
+					})
+					}
+				});	
+					}).catch( e => {
+						console.log('e???????' + JSON.stringify(e));
+					});
+				},
+		
+		subFavor(e){
+			let targetId = e.mp.currentTarget.dataset.id
+			let targetName = e.mp.currentTarget.dataset.name
+			Parse.Cloud.run('subFavor',{
+				id:targetId,
+				name:targetName
+			}).then( r=>{
+				this.objectId = r._toFullJSON().objectId;
+				this.bookListone.map( x=>{
+					if(x.objectId==this.objectId){
+						this.$nextTick(()=>{
+							x.favor--
+							x.redfavor=false
+						})
+					
+					}
+				});
+				this.bookListtwo.map( x=>{
+					if(x.objectId==this.objectId){
+						x.favor--
+						x.redfavor=false
+					}
+				});
+				this.bookListthree.map( x=>{
+					if(x.objectId==this.objectId){
+					this.$nextTick(()=>{
+						x.favor--
+						x.redfavor=false
+					})
+					}
+				});	
+					}).catch( e => {
+						console.log('e???????' + JSON.stringify(e));
+					});
+				},
+		},
+		
+		
+			
+		
+		
+		
+	
 };
 </script>
 
