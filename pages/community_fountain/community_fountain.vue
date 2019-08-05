@@ -138,7 +138,7 @@ export default {
 			status: [],
 			modalName: null,
 			CustomBar: this.CustomBar, // vue 对象上
-            tempaddr:'http://tedacar.oss-us-east-1.aliyuncs.com/',
+            tempaddr:'https://tedacar.oss-us-east-1.aliyuncs.com/',
 			TabCur: 0,
 			scrollLeft: 0,
 			bookListone:[],
