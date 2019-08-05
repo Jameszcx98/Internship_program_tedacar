@@ -356,7 +356,7 @@
 			SingleItem
 		},
 		mounted() {
-			this.$store.dispatch('getHotItems')
+			// this.$store.dispatch('getHotItems')
 		},
 		computed: {
 			...mapState(['hotItems'])

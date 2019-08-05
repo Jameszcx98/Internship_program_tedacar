@@ -43,9 +43,9 @@
 
 					<view class="text-gray text text-right margin-bottom-sm margin-right"  >
 						<text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs"  >{{x.like}}</text>
-						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike':data-id="x.objectId":data-name="'Publish'">{{x.like}}</text>
-						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor':data-id="x.objectId":data-name="'Publish'" >{{x.favor}}</text>
-						<text v-else class="cuIcon-favor margin-lr-xs"@tap='addFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
+						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike' :data-id="x.objectId" :data-name="'Publish'">{{x.like}}</text>
+						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor' :data-id="x.objectId" :data-name="'Publish'" >{{x.favor}}</text>
+						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
 						
 						<text class="cuIcon-message margin-lr-xs"></text>
 						30
@@ -72,9 +72,9 @@
 			
 					<view class="text-gray text text-right margin-bottom-sm margin-right"  >
 						<text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs" >{{x.like}}</text>
-						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike':data-id="x.objectId":data-name="'Publish'">{{x.like}}</text>
-						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
-						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
+						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike' :data-id="x.objectId" :data-name="'Publish'">{{x.like}}</text>
+						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
+						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
 						
 						<text class="cuIcon-message margin-lr-xs"></text>
 						30
@@ -101,9 +101,9 @@
 			
 					<view class="text-gray text text-right margin-bottom-sm margin-right"  >
 						<text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs"  >{{x.like}}</text>
-						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike':data-id="x.objectId":data-name="'Publish'">{{x.like}}</text>
-						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor':data-id="x.objectId":data-name="'Publish'" >{{x.favor}}</text>
-						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
+						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike' :data-id="x.objectId" :data-name="'Publish'">{{x.like}}</text>
+						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor' :data-id="x.objectId" :data-name="'Publish'" >{{x.favor}}</text>
+						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
 					
 						<text class="cuIcon-message margin-lr-xs"></text>
 						30
@@ -212,6 +212,7 @@ export default {
 						}
 						let t =  new Date(y.createdAt);
 						y.time = t.toLocaleString();
+						console.log('gsgg'+JSON.stringify(y))
 						this.bookListone.push(y)
 					});
 					this.signone = true
