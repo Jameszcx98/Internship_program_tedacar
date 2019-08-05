@@ -14,13 +14,13 @@
 	{"path": "pages/myDetail/myDetail","style": {"navigationBarTitleText": "用户中心详情"  , "enablePullDownRefresh": true}},
 	{"path": "pages/setting/setting","style": {"navigationBarTitleText": "设置"}},
 	{"path": "pages/order/order","style": {"navigationBarTitleText": "我的订单"}},
-	{"path": "pages/community/community","style": {"navigationBarTitleText": "社区"}},
+	// {"path": "pages/community/community","style": {"navigationBarTitleText": "社区"}},
 	{"path": "pages/post/post","style": {"navigationBarTitleText": "发布我的车"}},
 	{"path": "pages/city/city","style": {"navigationBarTitleText": "城市列表"}},
 	{"path": "pages/communityDetail/communityDetail","style": {"navigationBarTitleText": "详情"}},
 	{"path": "pages/garage/garage","style": {"navigationBarTitleText": "我的车库"}},
 	{"path": "pages/filter/filter","style": {"navigationBarTitleText": "筛选过滤"}},
-	{"path": "pages/newInformation/newInformation","style": {"navigationBarTitleText": "消息通知"}},
+	{"path": "pages/newInformation/newInformation","style": {"navigationBarTitleText": "消息通知","enablePullDownRefresh": true}},
 	{"path": "pages/timeline/timeline","style": {"navigationBarTitleText": "朋友圈"}},
 	{"path": "pages/categorylist/categorylist","style": {"navigationBarTitleText": "分类详情"}},
 	{"path": "pages/chatDetail/chatDetail","style": {"navigationBarTitleText": "聊天详情"}},
@@ -57,13 +57,7 @@
             "style" : {"enablePullDownRefresh": true}
 		}
 		
-	// {"path": "pages/qa/qa","style": {"navigationBarTitleText": "问答"}},	
-	// {"path": "pages/login/login","style": {"navigationBarTitleText": "登录"}},	
-	// {"path": "pages/save/save","style": {"navigationBarTitleText": "保存"}},
-	// {"path": "pages/information/information","style": {"navigationBarTitleText": "个人资料"}},
-	// {"path": "pages/moneyhistory/moneyhistory","style": {"navigationBarTitleText": "现金流"}},
-	// {"path" : "pages/article/article","style" : {}},
-    // {"path" : "pages/uploadForEvaluate/uploadForEvaluate","style" : {}}
+
         
     ],
 

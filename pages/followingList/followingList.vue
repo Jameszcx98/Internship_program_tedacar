@@ -29,8 +29,8 @@
 				</view>
 				<view class="action" style="display: inline;">
 					<!-- <view class="text-grey text-xs">{{x.time}}</view> -->
-					<view v-if='x.status' class="cu-tag bg-gray radius" @tap="unfollow":data-id="x.following.objectId">已关注</view>
-					<view v-else  class="cu-tag bg-red radius" @tap="follow":data-id="x.following.objectId">关注</view>
+					<view v-if='x.status' class="cu-tag bg-gray radius" @tap="unfollow" :data-id="x.following.objectId">已关注</view>
+					<view v-else  class="cu-tag bg-red radius" @tap="follow" :data-id="x.following.objectId">关注</view>
 				</view>
 				
 			</view>
@@ -53,30 +53,40 @@
 				followingList: [],
 				tempaddr:'https://tedacar.oss-us-east-1.aliyuncs.com/',
 				targetId:'',
+				skipnumber:0
 			};
 		},
 
 		onShow() {
-			this.getStatus()
+			this.getStatus(0)
 		},
 
+		onReachBottom: function() {
+			this.getStatus(10)
+		},
 		
 		onPullDownRefresh: function (){
-			this.getStatus()
+			this.getStatus(0)
 			
 			
 		},
 		methods: {
-			getStatus(){
-				Parse.Cloud.run('getFollowingList')
+			getStatus(num){
+				if(num==0){
+					this.followingList = []
+					this.skipnumber = 0
+				}else{
+					this.skipnumber+=num
+				}
+				Parse.Cloud.run('getFollowingList',{
+					number:this.skipnumber
+				})
 				.then( r=>{
-					this.followingList=r.map(x=>{
+					r.map(x=>{
 					let y = x._toFullJSON()
-					console.log('dgag'+JSON.stringify(y))
-					return y
+					this.followingList.push(y)
 					});
 				}).catch(e => {
-					this.followerList=[]
 				console.log('????' + JSON.stringify(e));
 				});
 				
@@ -112,7 +122,7 @@
 					
 				}
 				)
-				this.getStatus()
+				
 				
 			},
 			

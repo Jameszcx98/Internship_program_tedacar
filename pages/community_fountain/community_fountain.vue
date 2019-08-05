@@ -41,88 +41,88 @@
       </view>
      </view>
 
-     <view class="text-gray text text-right margin-bottom-sm margin-right"  >
-      <text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs"  >{{x.like}}</text>
-      <text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike':data-id="x.objectId":data-name="'Publish'">{{x.like}}</text>
-      <text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor':data-id="x.objectId":data-name="'Publish'" >{{x.favor}}</text>
-      <text v-else class="cuIcon-favor margin-lr-xs"@tap='addFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
-      
-      <text class="cuIcon-message margin-lr-xs"></text>
-      30
-     </view>
-    </view>
-   </view>
-   <view class="cu-card dynamic no-card margin-bottom-sm radius" v-if='signtwo' v-for="(x, s) in bookListtwo" :key="s">
-    <!-- v-for="(x, s) in comList" :key="s" -->
-    
-    <view class="cu-item shadow" >
-     <view class="grid flex-sub padding-0 col-1" @tap="toDetail" :data-id="x.objectId">
-      <view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
-     </view>
-     
-     <view class="cu-list menu-avatar" v-if="x.user">
-      <view class="cu-item " style="height: 100upx;">
-       <view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
-       <view class="" style="width: 65%;">
-        <view>{{ x.user.wxProfile.nickName }} </view>
-        <view class="text-gray text-sm flex justify-between">{{ x.time }}</view>
-       </view>
-      </view>
-     </view>
-   
-     <view class="text-gray text text-right margin-bottom-sm margin-right"  >
-      <text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs" >{{x.like}}</text>
-      <text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike':data-id="x.objectId":data-name="'Publish'">{{x.like}}</text>
-      <text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
-      <text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
-      
-      <text class="cuIcon-message margin-lr-xs"></text>
-      30
-     </view>
-    </view>
-   </view>
-   <view class="cu-card dynamic no-card margin-bottom-sm radius" v-if='signthree' v-for="(x, s) in bookListthree" :key="s">
-    <!-- v-for="(x, s) in comList" :key="s" -->
-    
-    <view class="cu-item shadow" >
-     <view class="grid flex-sub padding-0 col-1" @tap="toDetail" :data-id="x.objectId">
-      <view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
-     </view>
-     
-     <view class="cu-list menu-avatar" v-if="x.user">
-      <view class="cu-item " style="height: 100upx;">
-       <view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
-       <view class="" style="width: 65%;">
-        <view>{{ x.user.wxProfile.nickName }} </view>
-        <view class="text-gray text-sm flex justify-between">{{ x.time }}</view>
-       </view>
-      </view>
-     </view>
-   
-     <view class="text-gray text text-right margin-bottom-sm margin-right"  >
-      <text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs"  >{{x.like}}</text>
-      <text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike':data-id="x.objectId":data-name="'Publish'">{{x.like}}</text>
-      <text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor':data-id="x.objectId":data-name="'Publish'" >{{x.favor}}</text>
-      <text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor':data-id="x.objectId":data-name="'Publish'">{{x.favor}}</text>
-     
-      <text class="cuIcon-message margin-lr-xs"></text>
-      30
-     </view>
-    </view>
-   </view>
-  </div>
-  <!-- 发布按钮 -->
-  <view
-   @tap="publishContent"
-   class="add round bg-gradual-orange text-xxl text-bold text-blue flex justify-center align-center"
-   style="width: 100upx; height: 100upx;position: fixed;bottom: 120upx; right:20upx;z-index:  1024;box-shadow: 0 4upx 6upx rgba(0, 0, 0, 0.1);"
-  >
-   <text class="cuIcon-add "></text>
-  </view>
-  <!-- 发布按钮 -->
-  
-  <footMenu :pageUrl="'community_fountain'"></footMenu>
- </view>
+					<view class="text-gray text text-right margin-bottom-sm margin-right"  >
+						<text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs"  >{{x.like}}</text>
+						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike' :data-id="x.objectId" :data-name="'Publish'">{{x.like}}</text>
+						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor' :data-id="x.objectId" :data-name="'Publish'" >{{x.favor}}</text>
+						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
+						
+						<text class="cuIcon-message margin-lr-xs"></text>
+						30
+					</view>
+				</view>
+			</view>
+			<view class="cu-card dynamic no-card margin-bottom-sm radius" v-if='signtwo' v-for="(x, s) in bookListtwo" :key="s">
+				<!-- v-for="(x, s) in comList" :key="s" -->
+				
+				<view class="cu-item shadow" >
+					<view class="grid flex-sub padding-0 col-1" @tap="toDetail" :data-id="x.objectId">
+						<view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
+					</view>
+					
+					<view class="cu-list menu-avatar" v-if="x.user">
+						<view class="cu-item " style="height: 100upx;">
+							<view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
+							<view class="" style="width: 65%;">
+								<view>{{ x.user.wxProfile.nickName }} </view>
+								<view class="text-gray text-sm flex justify-between">{{ x.time }}</view>
+							</view>
+						</view>
+					</view>
+			
+					<view class="text-gray text text-right margin-bottom-sm margin-right"  >
+						<text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs" >{{x.like}}</text>
+						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike' :data-id="x.objectId" :data-name="'Publish'">{{x.like}}</text>
+						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
+						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
+						
+						<text class="cuIcon-message margin-lr-xs"></text>
+						30
+					</view>
+				</view>
+			</view>
+			<view class="cu-card dynamic no-card margin-bottom-sm radius" v-if='signthree' v-for="(x, s) in bookListthree" :key="s">
+				<!-- v-for="(x, s) in comList" :key="s" -->
+				
+				<view class="cu-item shadow" >
+					<view class="grid flex-sub padding-0 col-1" @tap="toDetail" :data-id="x.objectId">
+						<view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
+					</view>
+					
+					<view class="cu-list menu-avatar" v-if="x.user">
+						<view class="cu-item " style="height: 100upx;">
+							<view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
+							<view class="" style="width: 65%;">
+								<view>{{ x.user.wxProfile.nickName }} </view>
+								<view class="text-gray text-sm flex justify-between">{{ x.time }}</view>
+							</view>
+						</view>
+					</view>
+			
+					<view class="text-gray text text-right margin-bottom-sm margin-right"  >
+						<text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs"  >{{x.like}}</text>
+						<text v-else class="cuIcon-like margin-lr-xs"  @tap='addLike' :data-id="x.objectId" :data-name="'Publish'">{{x.like}}</text>
+						<text v-if='x.redfavor' class="cuIcon-favorfill margin-lr-xs" @tap='subFavor' :data-id="x.objectId" :data-name="'Publish'" >{{x.favor}}</text>
+						<text v-else class="cuIcon-favor margin-lr-xs" @tap='addFavor' :data-id="x.objectId" :data-name="'Publish'">{{x.favor}}</text>
+					
+						<text class="cuIcon-message margin-lr-xs"></text>
+						30
+					</view>
+				</view>
+			</view>
+		</div>
+		<!-- 发布按钮 -->
+		<view
+			@tap="publishContent"
+			class="add round bg-gradual-orange text-xxl text-bold text-blue flex justify-center align-center"
+			style="width: 100upx; height: 100upx;position: fixed;bottom: 120upx; right:20upx;z-index:  1024;box-shadow: 0 4upx 6upx rgba(0, 0, 0, 0.1);"
+		>
+			<text class="cuIcon-add "></text>
+		</view>
+		<!-- 发布按钮 -->
+		
+		<footMenu :pageUrl="'community_fountain'"></footMenu>
+	</view>
 </template>
 
 <script>
@@ -212,6 +212,7 @@ export default {
 						}
 						let t =  new Date(y.createdAt);
 						y.time = t.toLocaleString();
+						console.log('gsgg'+JSON.stringify(y))
 						this.bookListone.push(y)
 					});
 					this.signone = true
