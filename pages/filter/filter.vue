@@ -206,9 +206,10 @@
 				Parse.Cloud.run('getFilteredProducts', {
 					choose2
 				}).then(r => { //发送筛选请求
+					　
 					this.$store.commit('setScreenResults', r)
 					this.totolCount=r.total_count;
-					// console.log('llllll' + JSON.stringify(r))
+					console.log('llllll' + JSON.stringify(r))
 				}).catch(e => {
 					console.log('eeeeee' + e)
 				})
