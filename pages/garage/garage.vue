@@ -99,35 +99,57 @@
 				swiperList: [],
 				avatar: [],
 				groupBuys: [],
-				carlist:[]
+				carlist:[],
+		
 
 			};
 			
 		},
 
 		onLoad() {
-			this.carlist = data.myCarList2
+			//this.carlist = data.myCarList2
 			this.swiperList = data.swiperList
 			this.avatar = data.avatar
-			this.getMyCarlist()     //writing......
+			this.getMyCarlist()     //writing......   填充 this.carlist
 		},
 
 
 		methods: {
 			getMyCarlist(){
-				
-				Parse.Cloud.run('getMyCarlist').then(r => {
-					console.log("r:",r)
-				
-				})
+				let userId = '00001'
+				let userInfo = {
+					userId:userId
+				}
+				console.log("userInfo:",userInfo)
+				Parse.Cloud.run('getMyCarlist',{
+					userId:userId
+				}).then(r => {  
 					
+					console.log("r",r)
+					this.carlist = r
+					
+					//console.log("cusAttrList:",cusAttrList)				
+				})
+				
+				// carlist:[{
+				// 	desc: "AD 50000D 0665 前6卡钳",
+				// 	num: "14,000"
+				// }, {
+				// 	desc: "其他待补充",
+				// 	num: "6,800"
+				// }, {
+				// 	desc: "其他待补充",
+				// 	num: "4,800"
+				// }],
+
+
 				.catch(e => {
 					console.log("err:" + JSON.stringify(e));
 				})
 				
 			},
-			
-			
+
+
 			naveTo() {
 				uni.navigateTo({
 					url: '../myCar/myCar',

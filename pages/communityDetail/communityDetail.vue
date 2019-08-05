@@ -144,7 +144,7 @@
 					this.item = r._toFullJSON();
 					this.user = r._toFullJSON().user;
 					var temp = this.item.image.map( x=>{
-						 x = 'http://tedacar.oss-us-east-1.aliyuncs.com/'+x;
+						 x = 'https://tedacar.oss-us-east-1.aliyuncs.com/'+x;
 						 return x;
 					})
 					for(let num=0;num<temp.length;num++)
