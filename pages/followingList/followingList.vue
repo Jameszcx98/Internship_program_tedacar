@@ -62,7 +62,7 @@
 		},
 
 		onReachBottom: function() {
-			this.getStatus(10)
+			this.getStatus(0)
 		},
 		
 		onPullDownRefresh: function (){
