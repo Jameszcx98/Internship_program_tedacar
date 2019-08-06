@@ -179,6 +179,27 @@
 		toLogin,
 		login
 	} from '../../utils';
+	
+	
+	// let query =  new Parse.Query('UserInfo')
+ //        let subscription = await query.subscribe()
+ //        let numberone = number[3]
+ //        subscription.on('update', (UserInfo) => {
+ //            console.log('gggaf1111111hg')})
+	
+	let query = new Parse.Query('UserInfo');
+	let subscription = query.subscribe();
+	
+	function init(x){
+		return subscription.on('update', x);
+	}
+	
+	function getUpdate(x) {
+		return subscription.on('create', x);
+	}
+	
+	
+	
 	export default {
 		// onShow() {
 		// 	console.log('开始检查登录情况');
@@ -187,6 +208,7 @@
 		// },
 		onShow() {
 			this.getuserStatus()
+			init(this.userInfo.likenumber)
 		},
 		created() {},
 		mounted() {},
