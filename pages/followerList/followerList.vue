@@ -29,8 +29,8 @@
 				</view>
 				<view class="action" style="display: inline;">
 					<!-- <view class="text-grey text-xs">{{x.time}}</view> -->
-					<view v-if='x.status' class="cu-tag bg-gray radius" @tap="unfollow":data-id="x.follower.objectId">已关注</view>
-					<view v-else  class="cu-tag bg-red radius" @tap="follow":data-id="x.follower.objectId">关注</view>
+					<view v-if='x.status' class="cu-tag bg-gray radius" @tap="unfollow" :data-id="x.follower.objectId">已关注</view>
+					<view v-else  class="cu-tag bg-red radius" @tap="follow" :data-id="x.follower.objectId">关注</view>
 				</view>
 				
 			</view>
@@ -51,13 +51,13 @@
 		data() {
 			return {
 				followerList: [],
-				tempaddr:'https://tedacar.oss-us-east-1.aliyuncs.com/',
-				skipnumber:''
+				tempaddr:'http://tedacar.oss-us-east-1.aliyuncs.com/',
+				skipnumber:0
 			};
 		},
 
 		onShow() {
-			this.getStatus()
+			this.getStatus(0)
 		},
 
 		
@@ -97,16 +97,32 @@
 				let targetId = e.mp.currentTarget.dataset.id;
 				let r = Parse.Cloud.run('follow',{
 					id: targetId
-				}).then()
-				this.getStatus()
+				}).then(r=>{
+					this.targetId = r
+					this.followerList.map( x=>{
+						if(x.follower.objectId==this.targetId){
+							x.status = true
+						}
+					})
+					
+				}
+				)
+				
+				
 			},
 			unfollow(e){
 				let targetId = e.mp.currentTarget.dataset.id;
 				let r = Parse.Cloud.run('unfollow',{
 					id: targetId
-				}).then()
-				this.getStatus()
-				
+				}).then( r=>{
+					this.targetId = r._toFullJSON().following.objectId
+					this.followerList.map( x=>{
+						if(x.follower.objectId==this.targetId){
+							x.status = false
+						}
+					})
+				}
+				)	
 			},
 			
 
