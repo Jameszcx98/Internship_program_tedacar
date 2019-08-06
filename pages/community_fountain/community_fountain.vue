@@ -1,45 +1,45 @@
 <template>
- <view>
-  <cu-custom bgColor="bg-teda">
-   <block slot="content">{{ i18n.com }}</block>
-  </cu-custom>
-   
-  <!-- 工具栏 -->
-   
-  <div class="cu-bar padding-lr bg-white solid ">
-   <div class="item" @click='getStatus(0)'>
-    {{ i18n.comFollow }}
-    <text class=" margin-left-xs"></text>
-   </div>
-   <div class="item" @click='getStatushot(0)'>
-    {{ i18n.comPublic }}
-    <text class=" margin-left-xs"></text>
-   </div>
-   <div class="item" @click='getStatusme(0)'>
-    {{ i18n.comMe }}
-    <text class=" margin-left-xs"></text>
-   </div>
-   
-   
-  </div>
-  <div class="pins padding-sm" style="column-count: 2;column-gap: 18upx;" >
-   <view class="cu-card dynamic no-card margin-bottom-sm radius" v-if='signone' v-for="(x, s) in bookListone" :key="s">
-    <!-- v-for="(x, s) in comList" :key="s" -->
-    
-    <view class="cu-item shadow" >
-     <view class="grid flex-sub padding-0 col-1" @tap="toDetail" :data-id="x.objectId">
-      <view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
-     </view>
-     
-     <view class="cu-list menu-avatar" v-if="x.user">
-      <view class="cu-item " style="height: 100upx;">
-       <view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
-       <view class="" style="width: 65%;">
-        <view>{{ x.user.wxProfile.nickName }} </view>
-        <view class="text-gray text-sm flex justify-between">{{ x.time }}</view>
-       </view>
-      </view>
-     </view>
+	<view style="margin-bottom: 100upx;">
+		<cu-custom bgColor="bg-teda">
+			<block slot="content">{{ i18n.com }}</block>
+		</cu-custom>
+			
+		<!-- 工具栏 -->
+			
+		<div class="cu-bar padding-lr bg-white solid ">
+			<div class="item" @click='getStatus(0)'>
+				{{ i18n.comFollow }}
+				<text class=" margin-left-xs"></text>
+			</div>
+			<div class="item" @click='getStatushot(0)'>
+				{{ i18n.comPublic }}
+				<text class=" margin-left-xs"></text>
+			</div>
+			<div class="item" @click='getStatusme(0)'>
+				{{ i18n.comMe }}
+				<text class=" margin-left-xs"></text>
+			</div>
+			
+			
+		</div>
+		<div class="pins padding-sm" style="column-count: 2;column-gap: 18upx;" >
+			<view class="cu-card dynamic no-card margin-bottom-sm radius" v-if='signone' v-for="(x, s) in bookListone" :key="s">
+				<!-- v-for="(x, s) in comList" :key="s" -->
+				
+				<view class="cu-item shadow" >
+					<view class="grid flex-sub padding-0 col-1" @tap="toDetail" :data-id="x.objectId">
+						<view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
+					</view>
+					
+					<view class="cu-list menu-avatar" v-if="x.user">
+						<view class="cu-item " style="height: 100upx;">
+							<view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
+							<view class="" style="width: 65%;">
+								<view>{{ x.user.wxProfile.nickName }} </view>
+								<view class="text-gray text-sm flex justify-between">{{ x.time }}</view>
+							</view>
+						</view>
+					</view>
 
 					<view class="text-gray text text-right margin-bottom-sm margin-right"  >
 						<text v-if='x.redheart' class="cuIcon-likefill margin-lr-xs"  >{{x.like}}</text>

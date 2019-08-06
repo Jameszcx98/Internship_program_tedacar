@@ -10,8 +10,8 @@ Vue.component('footMenu',footMenu) // 使用封装的底部公共组件
 
 const Parse = require('./common/parse.js')
 Parse.initialize("Teda")
-Parse.serverURL = 'http://localhost:1337/parse'
-// Parse.serverURL = 'https://teda-parse.wudizu.com/parse'
+// Parse.serverURL = 'http://localhost:1337/parse'
+Parse.serverURL = 'https://teda-parse.wudizu.com/parse'
 import i18n from './i18n.js'
 // ssaeee
 Vue.prototype._i18n = i18n
