@@ -1,5 +1,5 @@
 <template>
- <view>
+ <view style="padding-bottom: 100upx;">
   <cu-custom bgColor="bg-teda">
    <block slot="content">{{ i18n.com }}</block>
   </cu-custom>
