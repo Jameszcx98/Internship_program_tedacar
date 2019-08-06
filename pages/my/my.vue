@@ -52,9 +52,9 @@
 						<view class="text-gray text-sm flex padding-top-xs">
 
 							<text class='text-black text-sm margin-right-xs padding-left-sm'>声望 105</text>
-							<text class="text-black text-sm margin-right-xs padding-left-sm">帖子获赞{{userInfo.likenumber}}</text>
-							<text class="text-black text-sm margin-right-xs padding-left-sm "  @tap="jump('followerList')">粉丝{{userInfo.follower}}</text>
-							<text class="text-black text-sm margin-right-xs padding-left-sm" @tap="jump('followingList')" >关注{{userInfo.following}}</text>
+							<text class="text-black text-sm margin-right-xs padding-left-sm">帖子获赞{{likenumber}}</text>
+							<text class="text-black text-sm margin-right-xs padding-left-sm "  @tap="jump('followerList')">粉丝{{follower}}</text>
+							<text class="text-black text-sm margin-right-xs padding-left-sm" @tap="jump('followingList')" >关注{{following}}</text>
 
 							
 							
@@ -186,7 +186,9 @@
 		// 	this.wxProfile = this.$store.state.wxProfile
 		// },
 		onShow() {
+			this.addSubscription()
 			this.getuserStatus()
+			
 		},
 		created() {},
 		mounted() {},
@@ -209,13 +211,29 @@
 		
 // 
 		methods: {
+			addSubscription(){
+				let query = new Parse.Query('UserInfo')
+				let subscription =  query.subscribe()
+				subscription.on('open', () => {
+					console.log('subscription opened')
+				})
+
+				subscription.on('create', (object) => {
+					console.log('object created')
+				})
+
+				subscription.on('update', (object) => {
+					console.log('object updated:'+JSON.stringify(object))
+				})
+			},
 			
 			getuserStatus(){
 				Parse.Cloud.run('userInfo')
 				.then(r=>{
 					this.userInfo = r._toFullJSON()
-					console.log('fgdsss'+this.userInfo.follower)
-					
+					this.likenumber = this.userInfo.likenumber
+					this.follower = this.userInfo.follower
+					this.following = this.userInfo.following
 			
 					
 				})
@@ -258,6 +276,8 @@
 		},
 		computed: {}
 	};
+	
+
 </script>
 <style scoped>
 	.uni-list-cell-navigate img {

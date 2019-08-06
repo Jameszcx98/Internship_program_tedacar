@@ -58,6 +58,7 @@
 
 		onShow() {
 			this.getStatus(0)
+			this.subscribe()
 		},
 
 		
