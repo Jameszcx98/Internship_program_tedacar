@@ -30,6 +30,40 @@
 			</swiper-item>
 		</swiper>
 		<!-- 轮播图 -->
+		
+		
+		
+		<!-- 车辆列表 -->
+		<view class="cu-card article margin-bottom" :class="isCard?'no-card':''" @tap="jump('goods')">
+			<view class="cu-item shadow " v-for="(item,index) in carlist" :key="index">
+				<view class="content margin-top">
+					<image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXqDfub7Uq-J3NP0B88VHIdTQWlUtOygTBgnnJ53UpFS2sqgvm"></image>
+					<view class="desc">
+						<view class="text-black ">{{item.name}}</view>
+						<view class="text-black">{{item.desc}}</view>
+						<!--购物车符号-->
+						<div>
+							<div>
+								<view class="text-gray text-xs">{{item.dist}}</view>
+								<view class="text-black">{{item.price}}</view>
+							</div>
+							<!-- <text class="cuIcon-cart text-black"></text> -->
+						</div>
+						<!--购物车符号-->
+						<view>
+							<view class="cu-tag bg-teda sm text-white">一成购</view>
+							<text class="padding-left-xs text-teda text-sm">{{item.monthpay}}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+		<!-- 车辆列表 -->
+		
+		
+		
+		
+		
 		<!-- 发现同系车友 -->
 		<view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']">
 			<view class="cu-item" :class="menuArrow?'arrow':''">
@@ -64,19 +98,58 @@
 			return {
 				swiperList: [],
 				avatar: [],
-				groupBuys: []
+				groupBuys: [],
+				carlist:[],
+		
 
 			};
+			
 		},
 
 		onLoad() {
-			this.myCarList2 = data.myCarList2
+			//this.carlist = data.myCarList2
 			this.swiperList = data.swiperList
 			this.avatar = data.avatar
+			this.getMyCarlist()     //writing......   填充 this.carlist
 		},
 
 
 		methods: {
+			getMyCarlist(){
+				let userId = '00001'
+				let userInfo = {
+					userId:userId
+				}
+				console.log("userInfo:",userInfo)
+				Parse.Cloud.run('getMyCarlist',{
+					userId:userId
+				}).then(r => {  
+					
+					console.log("r",r)
+					this.carlist = r
+					
+					//console.log("cusAttrList:",cusAttrList)				
+				})
+				
+				// carlist:[{
+				// 	desc: "AD 50000D 0665 前6卡钳",
+				// 	num: "14,000"
+				// }, {
+				// 	desc: "其他待补充",
+				// 	num: "6,800"
+				// }, {
+				// 	desc: "其他待补充",
+				// 	num: "4,800"
+				// }],
+
+
+				.catch(e => {
+					console.log("err:" + JSON.stringify(e));
+				})
+				
+			},
+
+
 			naveTo() {
 				uni.navigateTo({
 					url: '../myCar/myCar',

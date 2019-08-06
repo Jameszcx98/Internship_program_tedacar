@@ -22,7 +22,7 @@
 	{"path": "pages/filter/filter","style": {"navigationBarTitleText": "筛选过滤"}},
 	{"path": "pages/newInformation/newInformation","style": {"navigationBarTitleText": "消息通知","enablePullDownRefresh": true}},
 	{"path": "pages/timeline/timeline","style": {"navigationBarTitleText": "朋友圈"}},
-	{"path": "pages/categorylist/categorylist","style": {"navigationBarTitleText": "分类详情"}},
+	{"path": "pages/categorylist/categorylist","style": {"navigationBarTitleText": "分类详情","enablePullDownRefresh":true}},
 	{"path": "pages/chatDetail/chatDetail","style": {"navigationBarTitleText": "聊天详情"}},
 	{"path": "pages/category/category","style": {"navigationBarTitleText": "全部分类"}},
 	{"path": "pages/cart/cart","style": {"navigationBarTitleText": "购物车"}},
@@ -57,13 +57,7 @@
             "style" : {"enablePullDownRefresh": true}
 		}
 		
-	// {"path": "pages/qa/qa","style": {"navigationBarTitleText": "问答"}},	
-	// {"path": "pages/login/login","style": {"navigationBarTitleText": "登录"}},	
-	// {"path": "pages/save/save","style": {"navigationBarTitleText": "保存"}},
-	// {"path": "pages/information/information","style": {"navigationBarTitleText": "个人资料"}},
-	// {"path": "pages/moneyhistory/moneyhistory","style": {"navigationBarTitleText": "现金流"}},
-	// {"path" : "pages/article/article","style" : {}},
-    // {"path" : "pages/uploadForEvaluate/uploadForEvaluate","style" : {}}
+
         
     ],
 

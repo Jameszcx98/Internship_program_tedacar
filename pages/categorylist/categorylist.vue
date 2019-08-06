@@ -153,13 +153,17 @@
 				categoryId: '',
 				list: [],
 				carlist: [],
+				oldlist:[],
 				CustomBar: this.CustomBar,
 				modalName: null,
 				priceList: [],
 				checkbox4: [],
 				checkbox5: [],
 				num: 1,
-
+				scroll:true,
+				pageSize:5,//条目数
+				currentPage:1,//当前页码
+				allPage:11,//总页码数
 			};
 		},
 		onLoad: function() {
@@ -171,15 +175,38 @@
 			this.checkbox4 = data.checkbox4
 			this.checkbox5 = data.checkbox5
 		},
+		onPullDownRefresh(){
+			// this.lookup()
+		},
+		onReachBottom(){
+			this.lookup()
+		},
 		onShow() {
 			if (!!this.$store.state.screenResults.items) {
 				this.carlist = this.$store.state.screenResults.items
 			}
 			// console.log('66666'+JSON.stringify());
-
 		},
 		methods: {
-
+			lookup(){//请求后台数据
+				let newlist=[];
+				if(this.currentPage<this.allPage){
+					this.currentPage++;
+					Parse.Cloud.run('getFilteredProducts',{pageSize:this.pageSize,currentPage:this.currentPage}).then(r =>{ 
+						newlist=r.items;
+						this.allPage=r.total_count/this.pageSize
+						this.carlist=[...newlist,...this.oldlist]
+						this.oldlist=this.carlist
+						// console.log('llllll' + JSON.stringify(r))
+					}).catch(e => {
+						console.log('eeeeee' + e)
+					})
+				}else{
+					console.log("xxxxxxx");
+				}
+				
+				console.log('llllll' + JSON.stringify(this.carlist))
+			},
 			ChoosePriceList(e) {
 				let items = this.priceList;
 				let values = e.currentTarget.dataset.value;

@@ -169,15 +169,15 @@ export default {
 			this.getStatusme(0)
 		}
     
-	},
-	
-	onReachBottom: function() {
-		if(this.signone){
-			this.getStatus(10)
-		}else if(this.signtwo){
-			this.getStatushot(10)
-		}else if(this.signthree){
-			this.getStatusme(10)
+ },
+ 
+ onReachBottom: function() {
+  if(this.signone){
+   this.getStatus(10)
+  }else if(this.signtwo){
+   this.getStatushot(10)
+  }else if(this.signthree){
+   this.getStatusme(10)
     }
     },
  
@@ -440,10 +440,10 @@ export default {
 
 <style>
 .pins .cu-card {
-	display: inline-block;
-	width: 100%;
-	/* box-shadow: 0 0 10rpx 0 rgba(0,0,0,0.10); */
-	break-inside: avoid;
-	overflow: auto;
+ display: inline-block;
+ width: 100%;
+ /* box-shadow: 0 0 10rpx 0 rgba(0,0,0,0.10); */
+ break-inside: avoid;
+ overflow: auto;
 }
 </style>
