@@ -58,11 +58,12 @@
 
 		onShow() {
 			this.getStatus(0)
+			this.subscribe()
 		},
 
 		
 		onReachBottom: function() {
-			this.getStatus(10)
+			this.getStatus(0)
 		},
 		
 		
