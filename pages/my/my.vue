@@ -48,16 +48,16 @@
        <text class="text-cut margin-top-sm">{{userInfo.wxProfile.nickName}}<text class='cu-tag radius text-teda text-sm margin-left-xs'>认证用户/商家</text></text>
       </view>
       <view class="  padding-top-xs"> 
-			<view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
-				帖子获赞{{userInfo.likenumber}}
-			</view>
-			<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
-				粉丝{{userInfo.follower}}
-				<view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
-			</view>
-			<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
-				关注{{userInfo.following}}
-			</view>
+   <view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
+    帖子获赞{{userInfo.likenumber}}
+   </view>
+   <view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
+    粉丝{{userInfo.follower}}
+    <view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
+   </view>
+   <view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
+    关注{{userInfo.following}}
+   </view>
       
 
        
@@ -215,10 +215,10 @@
     allcheck: false,
     listData: [],
     Listids: [],
-	addNumber:'',
-	addStatus:'',
-	newsNumber:0,
-	newsStatus:''
+	  addNumber:'',
+	  addStatus:'',
+	  newsNumber:0,
+ 	  newsStatus:''
 	
 	
     

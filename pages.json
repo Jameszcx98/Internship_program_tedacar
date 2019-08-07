@@ -14,7 +14,6 @@
 	{"path": "pages/myDetail/myDetail","style": {"navigationBarTitleText": "用户中心详情"  , "enablePullDownRefresh": true}},
 	{"path": "pages/setting/setting","style": {"navigationBarTitleText": "设置"}},
 	{"path": "pages/order/order","style": {"navigationBarTitleText": "我的订单"}},
-	// {"path": "pages/community/community","style": {"navigationBarTitleText": "社区"}},
 	{"path": "pages/post/post","style": {"navigationBarTitleText": "发布我的车"}},
 	{"path": "pages/city/city","style": {"navigationBarTitleText": "城市列表"}},
 	{"path": "pages/communityDetail/communityDetail","style": {"navigationBarTitleText": "详情"}},
