@@ -12,10 +12,10 @@
 		<view v-for="(msg, index) in messages" :key="index" class="cu-chat">
 		
 			<!-- Message by user1 (Host) -->
-			<view  class="cu-item self">
+			<view v-if="msg.sender == 'User1'" class="cu-item self">
 				<view class="main">
 					<view class="content bg-green shadow">
-						<text>1212</text>
+						<text>{{msg.message}}</text>
 					</view>
 				</view>
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big107000.jpg);"></view>

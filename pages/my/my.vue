@@ -125,11 +125,11 @@
 
 
       <view class="cu-item arrow">
-       <navigator class="content" hover-class="none" @tap="jump('newInformation')"> 
-  <view class="cuIcon-notification text-black" style="padding-left: 10upx;">
-  <text class="text-grey">消息通知</text>
-   <view v-if = 'newsStatus' class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
-  </view>
+       <navigator class="content" hover-class="none" @tap="jump('newInformation')" > 
+		<view class="cuIcon-notification text-black" style="padding-left: 10upx;">
+		<text class="text-grey">消息通知</text>
+			<view v-if = 'newsStatus' class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
+		</view>
        </navigator>
       </view>
       
@@ -185,18 +185,23 @@
   login
  } from '../../utils';
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  export default {
   // onShow() {
   //  console.log('开始检查登录情况');
   //  this.$store.commit('needLogin');
   //  this.wxProfile = this.$store.state.wxProfile
   // },
-  onShow() {
+  onShow(){
    this.getuserStatus();
-   // init(); 
    this.getUpdateNews();
    this.getUpdateFollower();
-   
   
   },
   created() {},
@@ -210,12 +215,12 @@
     allcheck: false,
     listData: [],
     Listids: [],
- addNumber:'',
- addStatus:'',
- newsNumber:0,
- newsStatus:''
- 
- 
+	  addNumber:'',
+	  addStatus:'',
+	  newsNumber:0,
+ 	  newsStatus:''
+	
+	
     
    };
   },
@@ -224,13 +229,16 @@
   methods: {
    
    getuserStatus(){
- this.newsNumber = 0
- this.addStatus = false
- this.newsStatus = false 
- console.log('getuserStatus'+this.newsNumber)
+	   
+	
+	this.addStatus = false
+	this.newsStatus = false
     Parse.Cloud.run('userInfo')
     .then(r=>{
      this.userInfo = r._toFullJSON()
+	 this.newsNumber = this.userInfo.number
+	 if(this.newsNumber>0)
+	 this.newsStatus = true
      
      
     })
@@ -238,59 +246,60 @@
    },
    
    getUpdateFollower(){
-     
-     let query = new Parse.Query('UserInfo');
-  let subscription = query.subscribe();
-     subscription.on('update', (object)=>{
-   object = object._toFullJSON()
-   console.log('gada'+object.user.objectId)
-   if(this.userInfo.objectId == object.user.objectId){
-   this.addNumber = object.follower - this.userInfo.follower
-   if(this.addNumber > 0 ){
-    this.addStatus = true
-   }else{
-    this.addStatus = false
-   }
-   // this.addNumberTwo = object.get('following') - this.userInfo.following
-      this.userInfo.likenumber = object.like
-      this.userInfo.follower = object.follower
-      this.userInfo.following = object.following
-   }
-      
-     })
-  // subscription.unsubscribe();
-  // Parse.LiveQuery.close();
-  
-  
-  
-    
+	    
+	    let query = new Parse.Query('UserInfo');
+		let subscription = query.subscribe();
+	   	subscription.on('update', (object)=>{
+			object = object._toFullJSON()
+			console.log('gada'+object.user.objectId)
+			if(this.userInfo.objectId == object.user.objectId){
+			this.addNumber = object.follower - this.userInfo.follower
+			if(this.addNumber > 0 ){
+				this.addStatus = true
+			}else{
+				this.addStatus = false
+			}
+			// this.addNumberTwo = object.get('following') - this.userInfo.following
+	   		this.userInfo.likenumber = object.like
+	   		this.userInfo.follower = object.follower
+	   		this.userInfo.following = object.following
+			}
+	   		
+	   	})
+		// subscription.unsubscribe();
+		// Parse.LiveQuery.close();
+		
+		
+		
+	   
    },
    
    getUpdateNews(){
-  
-  let queryNews = new Parse.Query('News');
-  let subscriptionNews = queryNews.subscribe();
-  console.log('gdafgar')
-  subscriptionNews.on('open', ()=>{
-   console.log('aseragga')
-   })
-  subscriptionNews.on('create', (object)=>{
-   console.log('gargdgaga'+JSON.stringify(object))
-    let x = object._toFullJSON()
-    if(this.userInfo.objectId == x.user.objectId){
-     this.newsNumber ++
-	 console.log('gafa'+this.newsNumber)
-     this.newsStatus = true
-    }else{
-     this.newsStatus = false
-    }
-    
-   
-   
-   
-  })
-  
-  },
+		
+		let queryNews = new Parse.Query('News');
+		let subscriptionNews = queryNews.subscribe();
+		console.log('gdafgar')
+		subscriptionNews.on('open', ()=>{
+			console.log('aseragga')
+			})
+		subscriptionNews.on('create', (object)=>{
+			console.log('gargdgaga'+JSON.stringify(object))
+				let x = object._toFullJSON()
+				if(this.userInfo.objectId == x.user.objectId){
+					this.newsNumber = object.number
+					this.newsStatus = true
+				}else{
+					this.newsStatus = false
+				}
+				
+			
+			
+			
+		})
+		
+		},
+		
+	
    
    connectMagento() {
     
