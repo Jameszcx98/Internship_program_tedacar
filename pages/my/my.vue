@@ -125,10 +125,10 @@
 
 
       <view class="cu-item arrow">
-       <navigator class="content" hover-class="none" @tap="jump('newInformation')"> 
+       <navigator class="content" hover-class="none" @tap="jump('newInformation')" > 
 		<view class="cuIcon-notification text-black" style="padding-left: 10upx;">
 		<text class="text-grey">消息通知</text>
-			<view class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
+			<view v-if = 'newsStatus' class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
 		</view>
        </navigator>
       </view>
@@ -185,17 +185,24 @@
   login
  } from '../../utils';
  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  export default {
   // onShow() {
   //  console.log('开始检查登录情况');
   //  this.$store.commit('needLogin');
   //  this.wxProfile = this.$store.state.wxProfile
   // },
-  onShow() {
+  onShow(){
    this.getuserStatus();
-   // init();
-   this.getUpdateFollower();
    this.getUpdateNews();
+   this.getUpdateFollower();
+  
   },
   created() {},
   mounted() {},
@@ -210,7 +217,8 @@
     Listids: [],
 	addNumber:'',
 	addStatus:'',
-	newsNumber:0
+	newsNumber:0,
+	newsStatus:''
 	
 	
     
@@ -221,9 +229,16 @@
   methods: {
    
    getuserStatus(){
+	   
+	
+	this.addStatus = false
+	this.newsStatus = false
     Parse.Cloud.run('userInfo')
     .then(r=>{
      this.userInfo = r._toFullJSON()
+	 this.newsNumber = this.userInfo.number
+	 if(this.newsNumber>0)
+	 this.newsStatus = true
      
      
     })
@@ -251,6 +266,7 @@
 			}
 	   		
 	   	})
+		// subscription.unsubscribe();
 		// Parse.LiveQuery.close();
 		
 		
@@ -263,15 +279,27 @@
 		let queryNews = new Parse.Query('News');
 		let subscriptionNews = queryNews.subscribe();
 		console.log('gdafgar')
-		subscriptionNews.on('open', (object)=>{
+		subscriptionNews.on('open', ()=>{
 			console.log('aseragga')
 			})
 		subscriptionNews.on('create', (object)=>{
-			console.log('gada'+JSON.stringify(object))
+			console.log('gargdgaga'+JSON.stringify(object))
+				let x = object._toFullJSON()
+				if(this.userInfo.objectId == x.user.objectId){
+					this.newsNumber = object.number
+					this.newsStatus = true
+				}else{
+					this.newsStatus = false
+				}
+				
+			
+			
 			
 		})
 		
 		},
+		
+	
    
    connectMagento() {
     
