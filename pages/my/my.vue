@@ -52,9 +52,9 @@
       <view class="text-gray text-sm flex padding-top-xs">
 
        <text class='text-black text-sm margin-right-xs padding-left-sm'>声望 105</text>
-       <text class="text-black text-sm margin-right-xs padding-left-sm">帖子获赞{{likenumber}}</text>
-       <text class="text-black text-sm margin-right-xs padding-left-sm "  @tap="jump('followerList')">粉丝{{follower}}</text>
-       <text class="text-black text-sm margin-right-xs padding-left-sm" @tap="jump('followingList')" >关注{{following}}</text>
+       <text class="text-black text-sm margin-right-xs padding-left-sm">帖子获赞{{userInfo.likenumber}}</text>
+       <text class="text-black text-sm margin-right-xs padding-left-sm "  @tap="jump('followerList')">粉丝{{userInfo.follower}}</text>
+       <text class="text-black text-sm margin-right-xs padding-left-sm" @tap="jump('followingList')" >关注{{userInfo.following}}</text>
 
        
        
@@ -199,10 +199,6 @@
     allcheck: false,
     listData: [],
     Listids: [],
-    follower:'',
-    likenumber:'',
-    following:''
-    
     
    };
   },
@@ -214,10 +210,7 @@
     Parse.Cloud.run('userInfo')
     .then(r=>{
      this.userInfo = r._toFullJSON()
-     this.likenumber = this.userInfo.likenumber
-     this.follower = this.userInfo.follower
-     this.following = this.userInfo.following
-   
+     
      
     })
     
