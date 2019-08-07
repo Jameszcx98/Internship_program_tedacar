@@ -130,7 +130,6 @@
 		<text class="text-grey">消息通知</text>
 			<view class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
 		</view>
-        <!-- <text class="text-grey">消息通知</text> -->
        </navigator>
       </view>
       
@@ -195,7 +194,8 @@
   onShow() {
    this.getuserStatus();
    // init();
-   this.getUpdate();
+   this.getUpdateFollower();
+   this.getUpdateNews();
   },
   created() {},
   mounted() {},
@@ -230,36 +230,48 @@
     
    },
    
-   getUpdate(){
+   getUpdateFollower(){
+	    
 	    let query = new Parse.Query('UserInfo');
 		let subscription = query.subscribe();
 	   	subscription.on('update', (object)=>{
-			this.addNumber = object.get('follower') - this.userInfo.follower
-			if(this.addNumber >0 ){
+			object = object._toFullJSON()
+			console.log('gada'+object.user.objectId)
+			if(this.userInfo.objectId == object.user.objectId){
+			this.addNumber = object.follower - this.userInfo.follower
+			if(this.addNumber > 0 ){
 				this.addStatus = true
+			}else{
+				this.addStatus = false
 			}
 			// this.addNumberTwo = object.get('following') - this.userInfo.following
-	   		this.userInfo.likenumber = object.get('like')
-	   		this.userInfo.follower = object.get('follower')
-	   		this.userInfo.following = object.get('following')
+	   		this.userInfo.likenumber = object.like
+	   		this.userInfo.follower = object.follower
+	   		this.userInfo.following = object.following
+			}
 	   		
 	   	})
+		// Parse.LiveQuery.close();
 		
-		let queryNews = new Parse.Query('News');
-		let newsSubscrption = queryNews.subscribe();
-		newsSubscrption.on('create', (object)=>{
-			object.map( (x,index)=>{
-				console.log('dvfffe'+index)
-				++this.newsNumber
-				
-			})
-		}
-		)
+		
 		
 	   
    },
    
-   
+   getUpdateNews(){
+		
+		let queryNews = new Parse.Query('News');
+		let subscriptionNews = queryNews.subscribe();
+		console.log('gdafgar')
+		subscriptionNews.on('open', (object)=>{
+			console.log('aseragga')
+			})
+		subscriptionNews.on('create', (object)=>{
+			console.log('gada'+JSON.stringify(object))
+			
+		})
+		
+		},
    
    connectMagento() {
     
