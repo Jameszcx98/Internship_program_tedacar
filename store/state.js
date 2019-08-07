@@ -9,11 +9,16 @@ const state = {
 		lang:'',
 		hotItems:[],
 		openId: '',
-	    screenResults:[],
+	    screenResults:{},//筛选结果
 		// Conversation id
 		convoId: {},
-
-
+		choose2:[],//筛选条件
+		allCondition:[],//所以筛选条件
+		currentPage:1,
+		pageSize:5,
+		oldlist:[],
+		allPage:null
+		
 	}
 
 export default state

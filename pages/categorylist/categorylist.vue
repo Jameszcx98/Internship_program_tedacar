@@ -99,7 +99,7 @@
 				<view class="content margin-top">
 					<image src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXqDfub7Uq-J3NP0B88VHIdTQWlUtOygTBgnnJ53UpFS2sqgvm"></image>
 					<view class="desc">
-						<view class="text-black ">{{item.name}}</view>
+						<view class="text-black ">{{item.name}}----{{index}}</view>
 						<view class="text-black">{{item.desc}}</view>
 						<!--购物车符号-->
 						<div>
@@ -161,14 +161,22 @@
 				checkbox5: [],
 				num: 1,
 				scroll:true,
-				pageSize:5,//条目数
-				currentPage:1,//当前页码
-				allPage:11,//总页码数
+				pageSize:null,//条目数
+				currentPage:null,//当前页码
+				allPage:0,//总页码数
+				choose:[],//存储筛选条件
+				isScreen:false//判断执行那条请求
 			};
 		},
 		onLoad: function() {
 			//console.log('data'+JSON.stringify(data))
-			// this.getAttribute()
+			this.oldlist=this.$store.state.oldlist
+			// this.currentPage=this.$store.state.currentPage
+			// this.pageSize=this.$store.state.pageSize
+			this.carlist=this.$store.state.screenResults.items
+			console.log('kkkk'+this.currentPage+'hhhhh'+this.pageSize)
+			this.isScreen=false
+			this.getAttribute()//初始化list
 			this.carlist = data.carlist
 			this.list = data.list
 			this.priceList = data.priceList
@@ -178,34 +186,70 @@
 		onPullDownRefresh(){
 			// this.lookup()
 		},
-		onReachBottom(){
-			this.lookup()
+		onReachBottom(){//下拉筛选
+			console.log('hshhd'+this.isScreen)
+			if(this.isScreen){//判断执行筛选函数
+				this.screenLookup()
+			}else{
+				console.log(2222)
+				this.lookup()
+			}
+			
 		},
 		onShow() {
-			if (!!this.$store.state.screenResults.items) {
+			this.$store.commit('setCurrentPage',1)
+				// console.log('aaaaa'+this.$store.state.screenResults)
+			if (!!this.$store.state.screenResults.items) {//判断筛选是否重置
+				// console.log('ggggg'+this.$store.state.screenResults)
 				this.carlist = this.$store.state.screenResults.items
+				this.allPage=Math.ceil(this.$store.state.screenResults.total_count/this.pageSize)  
+				// console.log('jsa8s'+JSON.stringify(this.$store.state.screenResults))
+			}else{//重置执行初始化函数
+				// console.log(1111111)
+					console.log('bbbb')
+				this.isScreen=false
+				this.getAttribute()
+			}
+			this.choose = this.$store.state.choose2
+			if (this.choose.length>=1) {
+				
+				
+				console.log(999999999)
+				this.isScreen=true;
+			}
+			
+			if(!this.isScreen){
+				this.carlist=[]
+				this.oldlist=[]
+				this.currentPage=1
 			}
 			// console.log('66666'+JSON.stringify());
 		},
 		methods: {
-			lookup(){//请求后台数据
+			screenFunction(a,b,c){//数据请求接口
 				let newlist=[];
-				if(this.currentPage<this.allPage){
-					this.currentPage++;
-					Parse.Cloud.run('getFilteredProducts',{pageSize:this.pageSize,currentPage:this.currentPage}).then(r =>{ 
+				console.log('aaa'+this.$store.state.currentPage+'bbb'+this.$store.state.allPage)
+				this.$store.commit('setCurrentPage',this.$store.state.currentPage+1)
+				if(this.$store.state.currentPage<=this.$store.state.allPage){
+					Parse.Cloud.run('getFilteredProducts',{pageSize:a,currentPage:b,choose2:c}).then(r =>{ 
 						newlist=r.items;
-						this.allPage=r.total_count/this.pageSize
-						this.carlist=[...newlist,...this.oldlist]
-						this.oldlist=this.carlist
-						// console.log('llllll' + JSON.stringify(r))
+						this.carlist=[...newlist,...this.$store.state.oldlist]
+						this.$store.commit('setScreenResults',this.carlist)
+						this.$store.commit('setOldlist',this.carlist)
 					}).catch(e => {
 						console.log('eeeeee' + e)
-					})
+					})	
 				}else{
 					console.log("xxxxxxx");
 				}
 				
-				console.log('llllll' + JSON.stringify(this.carlist))
+			},
+			lookup(){//请求后台数据,当前页面的请求
+				this.screenFunction(this.$store.state.pageSize,this.$store.state.currentPage)
+				// console.log('llllll' + JSON.stringify(this.carlist))
+			},
+			screenLookup(){//请求后台数据,，筛选请求
+				this.screenFunction(this.$store.state.pageSize,this.$store.state.currentPage,this.$store.state.choose2)
 			},
 			ChoosePriceList(e) {
 				let items = this.priceList;
@@ -305,10 +349,16 @@
 			sortNumber(a, b) { //排序
 				return a - b
 			},
-			getAttribute() {
-				Parse.Cloud.run('getAttbutesLabel').then(r => {
-					console.log('000000' + JSON.stringify(r))
-				}).catch()
+			getAttribute() {//无筛选请求，初始加载数据，并生成总页码
+				Parse.Cloud.run('getFilteredProducts',{pageSize:this.$store.state.pageSize,currentPage:this.$store.state.currentPage}).then(r => {
+					this.$store.commit('setScreenResults',r.items)
+					this.$store.commit('setAllPage',Math.ceil(r.total_count/this.$store.state.pageSize))
+					this.$store.commit('setOldlist',r.items)
+					// console.log('-----'+this.allPage)
+					this.carlist=r.items
+				}).catch(e=>{
+					console.log(JSON.stringify(e))
+				})
 			},
 			getTarget(target) {
 				if (target == 'ChooseModal') {
