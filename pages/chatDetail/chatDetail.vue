@@ -12,10 +12,10 @@
 		<view v-for="(msg, index) in messages" :key="index" class="cu-chat">
 		
 			<!-- Message by user1 (Host) -->
-			<view v-if="msg.sender == 'User1'" class="cu-item self">
+			<view  class="cu-item self">
 				<view class="main">
 					<view class="content bg-green shadow">
-						<text>{{msg.message}}</text>
+						<text>1212</text>
 					</view>
 				</view>
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big107000.jpg);"></view>
@@ -226,7 +226,9 @@
 				Parse.Cloud.run('addMessage', {
 					message: this.message,
 					conversationId: currentConversationId,
-					sender: host,
+					from: fromId,
+					to:toId
+					
 				}).then( r => {
 					console.log(r);
 					this.message = '';
