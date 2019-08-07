@@ -51,6 +51,24 @@ const mutations = {
 	setScreenResults(state, v) {//存储筛选结果
 		state.screenResults = v
 	},
+	setChoose2(state, v) {//存储筛选结果
+		state.choose2 = v
+	},
+	setAllCondition(state, v) {//存储筛选结果
+		state.allCondition = v
+	},
+	setCurrentPage(state,v){
+		state.currentPage=v
+	},
+	setPageSize(state,v){
+		state.pageSize=v
+	},
+	setOldlist(state,v){
+		state.oldlist=v
+	},
+	setAllPage(state,v){
+		state.allPage=v
+	},
 	reduceOnlineUser(state, v) {
 
 		Array.prototype.indexOf = function(val) {

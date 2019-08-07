@@ -158,7 +158,6 @@
 				title: '加载中...',
 				mask: true
 			});
-
 		},
 		onLoad() {
 			this.getAttribute();
@@ -167,6 +166,11 @@
 		onReady() {
 			uni.hideLoading()
 		},
+		onShow(){
+			this.listscroll=this.$store.state.allCondition;
+			this.$forceUpdate();
+			// this.lookup()
+		},
 		methods: {
 			reset(){//重置所以筛选属性
 				this.listscroll.forEach((y,z)=>{
@@ -174,8 +178,10 @@
 						i.light=false;
 					})
 				})
-				this.range1.rangeValues=[10, 60];
-				this.range2.rangeValues=[100, 600];
+				this.range1.rangeValues=[0, 10];
+				this.range2.rangeValues=[0, 10];
+				this.$store.commit('setChoose2',[])
+				this.$store.commit('setScreenResults', [])
 				this.$forceUpdate();
 			},
 			lookup() { //开始筛选
@@ -202,14 +208,16 @@
 						choose2.push(k)
 					}
 				})
-				console.log('bbbbbbbbbb9999999'+JSON.stringify(choose2))
+				this.$store.commit('setChoose2',choose2)
+				// console.log('bbbbbbbbbb9999999'+JSON.stringify(choose2))
 				Parse.Cloud.run('getFilteredProducts', {
 					choose2
 				}).then(r => { //发送筛选请求
 					　
 					this.$store.commit('setScreenResults', r)
 					this.totolCount=r.total_count;
-					console.log('llllll' + JSON.stringify(r))
+					
+					// console.log('llllll' + JSON.stringify(r))
 				}).catch(e => {
 					console.log('eeeeee' + e)
 				})
@@ -236,7 +244,7 @@
 				// console.log('kkkkkkkkkkkk'+JSON.stringify(this.listscroll))
 				// console.log('qqqqq'+code+'xxxxx'+index);
 				this.$forceUpdate(); //手动跟新数据（数据太多vue跟新不了）
-				
+				this.$store.commit('setAllCondition', this.listscroll)
 				this.lookup() //发送请求进行筛选
 			},
 			getAttribute() { //获取所有筛选标签
