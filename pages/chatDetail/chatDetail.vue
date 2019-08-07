@@ -217,11 +217,17 @@
 			},
 			
 			send() {    // Host -> Guest
-				let host = this.user2;
-				let guest = this.user1;
+				// let host = this.user2;
+				// let guest = this.user1;
+				let toId = 'WyyKaMWhab'  //j
+				let fromId = 'b7n8SBW7gg'  //i
 				let currentConversationId = this.cId;
 				
-				Parse.Cloud.run('addMessage', {message: this.message, conversationId: currentConversationId, sender: host}).then( r => {
+				Parse.Cloud.run('addMessage', {
+					message: this.message,
+					conversationId: currentConversationId,
+					sender: host,
+				}).then( r => {
 					console.log(r);
 					this.message = '';
 

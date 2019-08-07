@@ -48,16 +48,16 @@
        <text class="text-cut margin-top-sm">{{userInfo.wxProfile.nickName}}<text class='cu-tag radius text-teda text-sm margin-left-xs'>认证用户/商家</text></text>
       </view>
       <view class="  padding-top-xs"> 
-			<view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
-				帖子获赞{{userInfo.likenumber}}
-			</view>
-			<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
-				粉丝{{userInfo.follower}}
-				<view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
-			</view>
-			<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
-				关注{{userInfo.following}}
-			</view>
+   <view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
+    帖子获赞{{userInfo.likenumber}}
+   </view>
+   <view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
+    粉丝{{userInfo.follower}}
+    <view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
+   </view>
+   <view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
+    关注{{userInfo.following}}
+   </view>
       
 
        
@@ -126,10 +126,10 @@
 
       <view class="cu-item arrow">
        <navigator class="content" hover-class="none" @tap="jump('newInformation')"> 
-		<view class="cuIcon-notification text-black" style="padding-left: 10upx;">
-		<text class="text-grey">消息通知</text>
-			<view class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
-		</view>
+  <view class="cuIcon-notification text-black" style="padding-left: 10upx;">
+  <text class="text-grey">消息通知</text>
+   <view class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
+  </view>
         <!-- <text class="text-grey">消息通知</text> -->
        </navigator>
       </view>
@@ -208,11 +208,11 @@
     allcheck: false,
     listData: [],
     Listids: [],
-	addNumber:'',
-	addStatus:'',
-	newsNumber:0
-	
-	
+ addNumber:'',
+ addStatus:'',
+ newsNumber:0
+ 
+ 
     
    };
   },
@@ -231,32 +231,34 @@
    },
    
    getUpdate(){
-	    let query = new Parse.Query('UserInfo');
-		let subscription = query.subscribe();
-	   	subscription.on('update', (object)=>{
-			this.addNumber = object.get('follower') - this.userInfo.follower
-			if(this.addNumber >0 ){
-				this.addStatus = true
-			}
-			// this.addNumberTwo = object.get('following') - this.userInfo.following
-	   		this.userInfo.likenumber = object.get('like')
-	   		this.userInfo.follower = object.get('follower')
-	   		this.userInfo.following = object.get('following')
-	   		
-	   	})
-		
-		let queryNews = new Parse.Query('News');
-		let newsSubscrption = queryNews.subscribe();
-		newsSubscrption.on('create', (object)=>{
-			object.map( (x,index)=>{
-				console.log('dvfffe'+index)
-				++this.newsNumber
-				
-			})
-		}
-		)
-		
-	   
+     
+     let query = new Parse.Query('UserInfo');
+  let subscription = query.subscribe();
+     subscription.on('update', (object)=>{
+   this.addStatus = false
+   this.addNumber = object.get('follower') - this.userInfo.follower
+   if(this.addNumber > 0 ){
+    this.addStatus = true
+   }
+   // this.addNumberTwo = object.get('following') - this.userInfo.following
+      this.userInfo.likenumber = object.get('like')
+      this.userInfo.follower = object.get('follower')
+      this.userInfo.following = object.get('following')
+      
+     })
+  
+  let queryNews = new Parse.Query('News');
+  let newsSubscrption = queryNews.subscribe();
+  newsSubscrption.on('create', (object)=>{
+   object.map( (x,index)=>{
+    console.log('dvfffe'+index)
+    ++this.newsNumber
+    
+   })
+  }
+  )
+  
+    
    },
    
    
