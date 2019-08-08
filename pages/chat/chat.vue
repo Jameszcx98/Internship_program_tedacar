@@ -8,25 +8,47 @@
 		<!-- 聊天列表 -->
 		<!-- <view class="cu-list menu-avatar" @tap="jump('chatDetail')">
 			<view class="cu-item cur" v-for="(x,index) in chatList" :key="index">
-				<view class="cu-avatar radius lg" :style=" 'background-image:url(' + x.url + ');'"></view>
+				<view class="cu-avatar radius lg" :style=" 'background-image:url(' + x.following.wxProfile.avatarUrl + ');'"></view>
 				<view class="content">
-					<view><text class="text-cut">{{x.name}}</text>
+					<view><text class="text-cut">{{x.following.wxProfile.nickName}}</text>
 					</view>
-					<view class="text-gray text-sm flex"> <text class="text-cut">{{x.desc}}</text></view>
+					<view class="text-gray text-sm flex"> <text class="text-cut">"聊天的内容"</text></view>
 				</view>
 			</view>
 		</view> -->
 		
+		<!-- 粉丝列表 -->
+		
+		<!-- <view class="cu-list menu-avatar" >
+			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index">
+				<view class="cu-avatar radius lg" :style=" 'background-image:url(' + x.following.wxProfile.avatarUrl + ');'"></view>
+				<view class="content">
+					<view>
+						<text class="text-cut">{{x.following.wxProfile.nickName}}</text>
+					</view>
+	
+				</view>
+				<view class="action" style="display: inline;">
+					
+					<view v-if='x.status' class="cu-tag bg-gray radius" @tap="unfollow" :data-id="x.following.objectId">已关注</view>
+					<view v-else  class="cu-tag bg-red radius" @tap="follow" :data-id="x.following.objectId">关注</view>
+				</view>
+				
+			</view>
+		</view> -->
+		
+		<!-- 粉丝列表 -->
+		
 
 		<view class="cu-list menu-avatar" @tap="jump()">
 			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index">
-				<view class="cu-avatar radius lg" :style=" 'background-image:url(' + x.url + ');'"></view>
+				<view class="cu-avatar radius lg" :style=" 'background-image:url(' + x.following.wxProfile.avatarUrl + ');'"></view>
 				<view class="content">
 					<view>
-						<text class="text-cut">{{x.name}}</text>
+						<text class="text-cut">{{x.following.wxProfile.nickName}}</text>
 					</view>
 					<view class="flex">
-						<text class="text-cut text-gray text-sm">{{x.desc}}</text>
+						<text class="text-cut text-gray text-sm">“contents”</text>
 					</view>
 				</view>
 				<view class="action" style="display: inline;">
@@ -54,18 +76,12 @@
 	export default {
 		data() {
 			return {
-				chatList: [{
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg',
-					name: "小明",
-					desc: "好的",
-					time: "14:09"
-				}
-				
-			],
+				chatList: [],
 				user1 : 'User1',
 				user2 : 'User2',
 				cId: '',    // Conversation id
 				message: 'Hey, how are you?',
+				//followingList: [],  
 			};
 		},
 
@@ -76,12 +92,37 @@
 			//this.getStatus(0)
 			//console.log("Conversation Id: ", this.convoId);
 		},
+		onShow(){
+			this.getStatus(0)
+		},
 
 		computed: {
 			...mapState(['convoId']),    // Load from state	
 		},
 		
 		methods: {
+			getStatus(num){
+				if(num==0){
+					this.followingList = []
+					this.skipnumber = 0
+				}else{
+					this.skipnumber+=num
+				}
+				Parse.Cloud.run('getFollowingList',{
+					number:this.skipnumber
+				})
+				.then( r=>{
+					r.map(x=>{
+					let y = x._toFullJSON()
+					this.chatList.push(y)
+					});
+					console.log("chatList:",this.chatList) //x.following.wxProfile.nickName
+				}).catch(e => {
+				console.log('????' + JSON.stringify(e));
+				});
+				 
+			},
+			
 			getChatList(){
 				Parse.Cloud.run('getChatList')
 				.then(r=>{		
@@ -122,32 +163,44 @@
 			
 
 			jump() {
-				// Create conversation if not existed yet
-				if (!((this.user1 + this.user2) in this.convoId)) {
-					console.log("New conversation");
-					
-					Parse.Cloud.run('createConversation', {user1 : this.user1, user2 : this.user2}).then( r => {
-						this.cId = r;
-						console.log("Conversation id: ", this.cId);
+				Parse.Cloud.run('createConversation').then( r => {
 						
-						// Assign conversation id to user pair
-						this.$store.commit('setConvoId', {
-							user1 : this.user1,
-							user2 : this.user2,
-							convoId : this.cId
-						});		
+						console.log("creating");
+						
 					}).catch( e => {
 						console.log(e);
 					})
-					
-				} else {
-					console.log("Return conversation");
-					
-					this.cId = this.convoId[this.user1 + this.user2];
-					
-					console.log("Conversation id: ", this.cId);
-				}
-
+				
+				
+				
+				
+				
+				// Create conversation if not existed yet
+// 				if (!((this.user1 + this.user2) in this.convoId)) {
+// 					console.log("New conversation");
+// 					
+// 					Parse.Cloud.run('createConversation', {user1 : this.user1, user2 : this.user2}).then( r => {
+// 						this.cId = r;
+// 						console.log("Conversation id: ", this.cId);
+// 						
+// 						// Assign conversation id to user pair
+// 						this.$store.commit('setConvoId', {
+// 							user1 : this.user1,
+// 							user2 : this.user2,
+// 							convoId : this.cId
+// 						});		
+// 					}).catch( e => {
+// 						console.log(e);
+// 					})
+// 					
+// 				} else {
+// 					console.log("Return conversation");
+// 					
+// 					this.cId = this.convoId[this.user1 + this.user2];
+// 					
+// 					console.log("Conversation id: ", this.cId);
+// 				}
+// 
 				
 				
 				// Add message (user2 -> user1)
