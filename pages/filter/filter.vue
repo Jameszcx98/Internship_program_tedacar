@@ -160,18 +160,26 @@
 			});
 		},
 		onLoad() {
-			this.getAttribute();
-			this.lookup();
+			if(this.$store.state.allCondition.length!=0){
+				this.listscroll=this.$store.state.allCondition;
+				this.$store.commit('setScreenResults', [])
+				this.$forceUpdate();
+				this.lookup();
+			}else{
+				this.getAttribute();
+				this.lookup();
+			}
+			
 		},
 		onReady() {
 			uni.hideLoading()
 		},
 		onShow(){
-			this.listscroll=this.$store.state.allCondition;
-			this.$forceUpdate();
-			// this.lookup()
+
+			
 		},
 		methods: {
+			
 			reset(){//重置所以筛选属性
 				this.listscroll.forEach((y,z)=>{
 					y.options.forEach((i,j)=>{
@@ -182,9 +190,13 @@
 				this.range2.rangeValues=[0, 10];
 				this.$store.commit('setChoose2',[])
 				this.$store.commit('setScreenResults', [])
+				this.$store.commit('setIsScreen',false)
+				this.$store.commit('setCurrentPage',1)
+				this.$store.commit('setAllPage',null)
+				this.lookup()
 				this.$forceUpdate();
 			},
-			lookup() { //开始筛选
+		   lookup() { //开始筛选
 				let choose = []; //初始存储所以筛选
 				let choose2 = []; //存储被点亮的筛选
 				this.listscroll.forEach((d, f) => { //存储所有筛选要求
@@ -202,26 +214,26 @@
 						}
 					})
 				})
-				// console.log('66666666'+JSON.stringify(choose))
 				choose.forEach((k, l) => { //挑选有条件的筛选要求
 					if (k.options.length >= 1) {
 						choose2.push(k)
 					}
 				})
-				this.$store.commit('setChoose2',choose2)
-				// console.log('bbbbbbbbbb9999999'+JSON.stringify(choose2))
+				if(choose2.length!=0){
+					this.$store.commit('setIsScreen',true)
+					this.$store.commit('setChoose2',choose2)
+				}
+				
 				Parse.Cloud.run('getFilteredProducts', {
 					choose2
 				}).then(r => { //发送筛选请求
-					　
-					this.$store.commit('setScreenResults', r)
+					this.$store.commit('setAllPage',Math.ceil(r.total_count/this.$store.state.pageSize))
 					this.totolCount=r.total_count;
 					
-					// console.log('llllll' + JSON.stringify(r))
+					
 				}).catch(e => {
 					console.log('eeeeee' + e)
 				})
-				// console.log('hhhhh' + JSON.stringify(choose2))
 			},
 			onRangeChange: function(e) { //首付区间值
 				this.range1.rangeValues = [e.minValue, e.maxValue];
@@ -235,18 +247,30 @@
 			onchange(e) { //选择筛选，按钮变色
 				let code = e.currentTarget.dataset.id
 				let index = e.currentTarget.dataset.index
-				// this.$set(this.tableData[id],"red",true);
+				// this.checkBox(code,index)
+				// console.log('this.listscroll[code]'+JSON.stringify(this.listscroll[code]))
 				if (this.listscroll[code].options[index].light) {
 					this.listscroll[code].options[index].light = false
 				} else {
 					this.listscroll[code].options[index].light = true
 				}
-				// console.log('kkkkkkkkkkkk'+JSON.stringify(this.listscroll))
-				// console.log('qqqqq'+code+'xxxxx'+index);
 				this.$forceUpdate(); //手动跟新数据（数据太多vue跟新不了）
 				this.$store.commit('setAllCondition', this.listscroll)
+				this.$store.commit('setScreenResults', [])
+				this.$store.commit('setOldlist', [])
+				this.$store.commit('setCurrentPage',0)
 				this.lookup() //发送请求进行筛选
 			},
+			// checkBox(code,index){
+			// 	this.listscroll.forEach((a,b)=>{
+			// 		a.options.forEach((c,d)=>{
+			// 			if(c.light!=true&&){
+			// 				
+			// 			}
+			// 		})
+			// 	})
+			// 	
+			// },
 			getAttribute() { //获取所有筛选标签
 				Parse.Cloud.run('getAttbutesLabel').then(r => {
 					r.forEach((x, j) => { //筛选手动添加的标签

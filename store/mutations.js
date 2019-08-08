@@ -69,6 +69,9 @@ const mutations = {
 	setAllPage(state,v){
 		state.allPage=v
 	},
+	setIsScreen(state,v){
+		state.isScreen=v
+	},
 	reduceOnlineUser(state, v) {
 
 		Array.prototype.indexOf = function(val) {
