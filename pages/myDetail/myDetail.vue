@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="margin-bottom: 100upx;">
 		<cu-custom bgColor="bg-teda" :isBack="true">
 			<block slot="backText">{{i18n.commonBack}}</block>
 			<block slot="content">{{i18n.myTitle}}</block>

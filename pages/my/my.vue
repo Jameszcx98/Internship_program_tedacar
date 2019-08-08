@@ -127,7 +127,7 @@
       <view class="cu-item arrow">
        <navigator class="content" hover-class="none" @tap="jump('newInformation')" > 
 		<view class="cuIcon-notification text-black" style="padding-left: 10upx;">
-		<text class="text-grey">消息通知</text>
+		<text class="text-grey" style="padding-left: 15upx;">消息通知</text>
 			<view v-if = 'newsStatus' class="cu-tag badge" style='right: 20upx;'>{{newsNumber}}+</view>
 		</view>
        </navigator>
@@ -201,7 +201,7 @@
   onShow(){
    this.getuserStatus();
    this.getUpdateNews();
-   this.getUpdateFollower();
+   // this.getUpdateFollower();
   
   },
   created() {},
@@ -237,17 +237,17 @@
     Parse.Cloud.run('userInfo')
     .then(r=>{
 		let y = r._toFullJSON()
-		if(this.userInfo == null){
+		// if(this.userInfo == null){
 		this.userInfo = y
-		}else{
-			this.addNumber = y.follower - this.userInfo.follower
-			this.userInfo = y
-			if(this.addNumber > 0 ){
-				this.addStatus = true
-			}else{
-				this.addStatus = false
-			}
-		}
+		// }else{
+		// 	this.addNumber = y.follower - this.userInfo.follower
+		// 	this.userInfo = y
+		// 	if(this.addNumber > 0 ){
+		// 		this.addStatus = true
+		// 	}else{
+		// 		this.addStatus = false
+		// 	}
+		// }
 		this.newsNumber = this.userInfo.number
 		if(this.newsNumber>0)
 		this.newsStatus = true
@@ -257,34 +257,34 @@
     
    },
    
-   getUpdateFollower(){
-	    
-	    let query = new Parse.Query('UserInfo');
-		let subscription = query.subscribe();
-	   	subscription.on('update', (object)=>{
-			object = object._toFullJSON()
-			console.log('gada'+object.user.objectId)
-			if(this.userInfo.objectId == object.user.objectId){
-			this.addNumber = object.follower - this.userInfo.follower
-			if(this.addNumber > 0 ){
-				this.addStatus = true
-			}else{
-				this.addStatus = false
-			}
-			// this.addNumberTwo = object.get('following') - this.userInfo.following
-	   		this.userInfo.likenumber = object.like
-	   		this.userInfo.follower = object.follower
-	   		this.userInfo.following = object.following
-			}
-	   		
-	   	})
-		// subscription.unsubscribe();
-		// Parse.LiveQuery.close();
-		
-		
-		
-	   
-   },
+  //  getUpdateFollower(){
+	 //    
+	 //    let query = new Parse.Query('UserInfo');
+		// let subscription = query.subscribe();
+	 //   	subscription.on('update', (object)=>{
+		// 	object = object._toFullJSON()
+		// 	console.log('gada'+object.user.objectId)
+		// 	if(this.userInfo.objectId == object.user.objectId){
+		// 	this.addNumber = object.follower - this.userInfo.follower
+		// 	if(this.addNumber > 0 ){
+		// 		this.addStatus = true
+		// 	}else{
+		// 		this.addStatus = false
+		// 	}
+		// 	// this.addNumberTwo = object.get('following') - this.userInfo.following
+	 //   		this.userInfo.likenumber = object.like
+	 //   		this.userInfo.follower = object.follower
+	 //   		this.userInfo.following = object.following
+		// 	}
+	 //   		
+	 //   	})
+		// // subscription.unsubscribe();
+		// // Parse.LiveQuery.close();
+		// 
+		// 
+		// 
+	 //   
+  //  },
    
    getUpdateNews(){
 		
