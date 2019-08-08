@@ -215,10 +215,10 @@
     allcheck: false,
     listData: [],
     Listids: [],
-	  addNumber:'',
-	  addStatus:'',
-	  newsNumber:0,
- 	  newsStatus:''
+	addNumber:'',
+	addStatus:'',
+	newsNumber:0,
+ 	newsStatus:''
 	
 	
     
@@ -286,7 +286,8 @@
 			console.log('gargdgaga'+JSON.stringify(object))
 				let x = object._toFullJSON()
 				if(this.userInfo.objectId == x.user.objectId){
-					this.newsNumber = object.number
+					this.newsNumber = x.number
+					console.log('fadsta'+this.newsNumber)
 					this.newsStatus = true
 				}else{
 					this.newsStatus = false
