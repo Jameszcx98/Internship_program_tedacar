@@ -160,7 +160,7 @@
 			return {
 				InputBottom: 0,
 				isRouterAlive: true,    // Used to reload page
-
+				chatOppId:'',
 				cId: '',    // Conversation id
 				user1: '',    // Host (me)
 				user2: '',    // Guest (him)
@@ -174,7 +174,7 @@
 		},
 
 		onShow() {
-			this.chatTOId = this.$root.$mp.query.id;
+			this.chatOppId = this.$root.$mp.query.id;
 			init(this.callLiveQuery);		
 			getUpdate(this.createLiveQuery);
 		},

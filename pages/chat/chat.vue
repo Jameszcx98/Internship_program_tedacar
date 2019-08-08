@@ -19,8 +19,8 @@
 		
 		
 
-		<view class="cu-list menu-avatar" @tap="toDetail" :data-id="x.friend.objectId">
-			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index">
+		<view class="cu-list menu-avatar" >
+			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index" @tap="toDetail" :data-id="x.friend.objectId">
 				<view class="cu-avatar radius lg" :style=" 'background-image:url(' + x.friend.wxProfile.avatarUrl + ');'"></view>
 				<view class="content">
 					<view>
@@ -72,6 +72,7 @@
 		// 	//console.log("Conversation Id: ", this.convoId);
 		// },
 		onShow(){
+			console.log('gsdrfgf')
 			this.getStatus(0)
 		},
 
@@ -94,9 +95,10 @@
 					r.map(x=>{
 					let y = x._toFullJSON()
 					this.chatList.push(y)
+					console.log("chatList:",JSON.stringify(this.chatList)) //x.following.wxProfile.nickName
 					});
-					console.log("chatList:",this.chatList) //x.following.wxProfile.nickName
 					
+					console.log('sdffadfgghhhhhhhh')
 				}).catch(e => {
 				console.log('????' + JSON.stringify(e));
 				});
