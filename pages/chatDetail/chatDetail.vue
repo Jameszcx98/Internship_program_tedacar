@@ -28,7 +28,7 @@
 			
 			
 			<!-- Message by user2 (Guest)-->
-			<view v-if="msg.sender == 'WyyKaMWhab'" class="cu-item">
+			<view v-if="msg.sender == 'WyyKaMWhab' " class="cu-item">
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big143004.jpg);"></view>
 				<view class="main">
 					<view class="date ">{{msg.time}}</view>
@@ -155,6 +155,7 @@
 			this.cId = this.convoId[this.user1 + this.user2];
 			console.log("Current conversation id: ", this.cId);
 			this.getConversation();
+			//this.getMyObjectId()
 			//this.keepTracking();
 		},
 
@@ -162,23 +163,27 @@
 			return {
 				InputBottom: 0,
 				isRouterAlive: true,    // Used to reload page
-				hostId:'b7n8SBW7gg',
-				opId:'WyyKaMWhab',
+				hostId:'',
+				//opId:'WyyKaMWhab',
 
 				cId: '',    // Conversation id
 				user1: '',    // Host (me)
 				user2: '',    // Guest (him)
 				messages: [],    // Messages list from the firebase
 				message: '',    // Message to be sent
+				chatOppId:''
 			};
 		},
+		
 
 		onLoad() {
+			this.chatOppId = this.$root.$mp.query.id;
+			//this.getMyObjectId()
+			console.log(this.chatOppId)
 			
 		},
 
 		onShow() {
-			this.chatTOId = this.$root.$mp.query.id;
 			init(this.callLiveQuery);		
 			getUpdate(this.createLiveQuery);
 		},
@@ -188,6 +193,16 @@
 		},
 
 		methods: {
+			getMyObjectId(){
+				Parse.Cloud.run('getMyId').then( r => {
+					this.hostId = r
+				
+					})
+				.catch( e => {
+					console.log(e);
+				})
+				
+			},
 			callLiveQuery() {
 				console.log("Live query called");
 			},
@@ -214,7 +229,11 @@
 				
 				
 				
-				Parse.Cloud.run('getMessage', {conversationId: this.cId}).then( r => {
+				Parse.Cloud.run('getMessage', {
+					conversationId: this.cId,
+					oppId:this.chatOppId
+					
+				}).then( r => {
 					this.messages = r;
 					console.log("Message List:", this.messages);
 					uni.pageScrollTo({
@@ -240,15 +259,15 @@
 			send() {    // Host -> Guest
 				// let host = this.user2;
 				// let guest = this.user1;
-				let toId = 'CZxFSFYLj8'  //j
-				let fromId = 'ALOT3z9mrP'  //i
+				//let toId = 'WyyKaMWhab'  //j
+				let fromId = 'b7n8SBW7gg'  //i
 				let currentConversationId = this.cId;
 				
 				Parse.Cloud.run('addMessage', {
 					message: this.message,
 					conversationId: currentConversationId,
 					from: fromId,
-					to:toId
+					to:this.chatOppId
 					
 				}).then( r => {
 					console.log(r);

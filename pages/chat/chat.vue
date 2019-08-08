@@ -19,8 +19,8 @@
 		
 		
 
-		<view class="cu-list menu-avatar" @tap="toDetail" :data-id="x.friend.objectId">
-			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index">
+		<view class="cu-list menu-avatar">
+			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index"  @tap="toDetail" :data-id="x.friend.objectId">
 				<view class="cu-avatar radius lg" :style=" 'background-image:url(' + x.friend.wxProfile.avatarUrl + ');'"></view>
 				<view class="content">
 					<view>
@@ -82,7 +82,7 @@
 		methods: {
 			getStatus(num){      //拿关注列表
 				if(num==0){
-					this.followingList = []
+					this.chatList = []
 					this.skipnumber = 0
 				}else{
 					this.skipnumber+=num
