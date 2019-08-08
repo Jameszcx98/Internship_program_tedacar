@@ -153,7 +153,7 @@
 			this.cId = this.convoId[this.user1 + this.user2];
 			console.log("Current conversation id: ", this.cId);
 			this.getConversation();
-			this.keepTracking();
+			//this.keepTracking();
 		},
 
 		data() {
@@ -193,6 +193,22 @@
 			},
 
 			getConversation() {
+				Parse.Cloud.run('getMessage').then( r => {
+					this.messages = r;
+					console.log("Message List:", this.messages);
+					uni.pageScrollTo({
+						scrollTop: 250,
+						duration: 300
+					});
+				}).catch( e => {
+					console.log(e);
+				})
+				
+				
+				
+				
+				
+				
 				Parse.Cloud.run('getMessage', {conversationId: this.cId}).then( r => {
 					this.messages = r;
 					// console.log("Message List:", this.messages);

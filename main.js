@@ -13,7 +13,7 @@ Parse.initialize("Teda")
 // Parse.serverURL = 'http://localhost:1337/parse'
 Parse.serverURL = 'https://teda-parse.wudizu.com/parse'
 import i18n from './i18n.js'
-// ssaeee
+// ssaeee s
 Vue.prototype._i18n = i18n
 
 //全局处理重复页面跳转详情初始化,和详情跳详情返回的bug
