@@ -218,7 +218,8 @@
 	addNumber:'',
 	addStatus:'',
 	newsNumber:0,
- 	newsStatus:''
+ 	newsStatus:'',
+	addFollowerNumber:0
 	
 	
     
@@ -235,10 +236,21 @@
 	this.newsStatus = false
     Parse.Cloud.run('userInfo')
     .then(r=>{
-     this.userInfo = r._toFullJSON()
-	 this.newsNumber = this.userInfo.number
-	 if(this.newsNumber>0)
-	 this.newsStatus = true
+		let y = r._toFullJSON()
+		if(this.userInfo == null){
+		this.userInfo = y
+		}else{
+			this.addNumber = y.follower - this.userInfo.follower
+			this.userInfo = y
+			if(this.addNumber > 0 ){
+				this.addStatus = true
+			}else{
+				this.addStatus = false
+			}
+		}
+		this.newsNumber = this.userInfo.number
+		if(this.newsNumber>0)
+		this.newsStatus = true
      
      
     })
