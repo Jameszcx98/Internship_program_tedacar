@@ -166,6 +166,7 @@
 				hostId:'',
 				//opId:'WyyKaMWhab',
 
+				chatOppId:'',
 				cId: '',    // Conversation id
 				user1: '',    // Host (me)
 				user2: '',    // Guest (him)
@@ -184,6 +185,7 @@
 		},
 
 		onShow() {
+			this.chatOppId = this.$root.$mp.query.id;
 			init(this.callLiveQuery);		
 			getUpdate(this.createLiveQuery);
 		},
