@@ -174,6 +174,7 @@
 		},
 
 		onShow() {
+			this.chatTOId = this.$root.$mp.query.id;
 			init(this.callLiveQuery);		
 			getUpdate(this.createLiveQuery);
 		},
@@ -235,8 +236,8 @@
 			send() {    // Host -> Guest
 				// let host = this.user2;
 				// let guest = this.user1;
-				let toId = 'WyyKaMWhab'  //j
-				let fromId = 'b7n8SBW7gg'  //i
+				let toId = 'CZxFSFYLj8'  //j
+				let fromId = 'ALOT3z9mrP'  //i
 				let currentConversationId = this.cId;
 				
 				Parse.Cloud.run('addMessage', {
