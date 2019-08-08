@@ -120,6 +120,7 @@
 				let userInfo = {
 					userId:userId
 				}
+				
 				console.log("userInfo:",userInfo)
 				Parse.Cloud.run('getMyCarlist',{
 					userId:userId

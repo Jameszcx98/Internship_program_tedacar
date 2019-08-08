@@ -59,49 +59,8 @@
 					name: "小明",
 					desc: "好的",
 					time: "14:09"
-				},
-				{
-					url: 'https://ossweb-img.qq.com/images/lol/img/champion/Taric.png',
-					name: "小方",
-					desc: "行，那就明天见",
-					time: "12:23"
-				},
-				{
-					url: 'https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png',
-					name: "小刚",
-					desc: "可以可以",
-					time: "12:22"
-				},
-				{
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big81007.jpg',
-					name: "Mary",
-					desc: "bye bye",
-					time: "11:49"
-				},
-				{
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big81020.jpg',
-					name: "胡军",
-					desc: "谢谢",
-					time: "周日"
-				},
-				{
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big107000.jpg',
-					name: "余辉",
-					desc: "我去吃饭了",
-					time: "周六"
-				},
-				{
-					url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big143004.jpg',
-					name: "张东",
-					desc: "好的下次请教你",
-					time: "周三"
-				},
-				{
-					url: '//c6.xinstatic.com/f3/20180601/1624/5b1102b642e94128239.png',
-					name: "周经理",
-					desc: "好的",
-					time: "周一"
 				}
+				
 			],
 				user1 : 'User1',
 				user2 : 'User2',
@@ -125,16 +84,16 @@
 		methods: {
 			getChatList(){
 				Parse.Cloud.run('getChatList')
-				.then(r=>{
-					this.userInfo = r._toFullJSON()
-					this.likenumber = this.userInfo.likenumber
-					this.follower = this.userInfo.follower
-					this.following = this.userInfo.following
-			
+				.then(r=>{		
+			// 		this.userInfo = r._toFullJSON()
+			// 		this.likenumber = this.userInfo.likenumber
 					
+			// 		this.following = this.userInfo.following
+			
+					console.log("r:",r)
 				})
 				console.log("function running")
-				let query = new Parse.Query('ChatInfo')
+				let query = new Parse.Query('Message')
 				let subscription =  query.subscribe()
 				subscription.on('open', () => {
 					console.log('subscription opened')
@@ -142,10 +101,20 @@
 
 				subscription.on('create', (object) => {
 					console.log('object created'+JSON.stringify(object))
+					
 				})
 
 				subscription.on('update', (object) => {
-					console.log('object updated:'+JSON.stringify(object))
+					let strobj = JSON.stringify(object)
+					console.log('object updated:'+ strobj)
+					let obj = object._toFullJSON()
+					console.log("obj:::",obj)   
+					console.log("obj.to.objectId:(有问题)",obj.to.objectId)   //WyyKaMWhab
+					console.log("obj.text",obj.text) 
+					this.chatList[0].desc = obj.text
+					//obj.to.wxprofile
+					
+					//console.log('trxt',object['text'])
 					
 				})
 				
