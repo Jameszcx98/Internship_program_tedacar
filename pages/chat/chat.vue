@@ -81,7 +81,7 @@
 		},
 		
 		methods: {
-			getStatus(num){
+			getStatus(num){      //拿关注列表
 				if(num==0){
 					this.followingList = []
 					this.skipnumber = 0
