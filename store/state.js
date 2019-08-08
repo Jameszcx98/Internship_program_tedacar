@@ -9,7 +9,7 @@ const state = {
 		lang:'',
 		hotItems:[],
 		openId: '',
-	    screenResults:{},//筛选结果
+	    screenResults:[],//筛选结果
 		// Conversation id
 		convoId: {},
 		choose2:[],//筛选条件
@@ -17,7 +17,8 @@ const state = {
 		currentPage:1,
 		pageSize:5,
 		oldlist:[],
-		allPage:null
+		allPage:null,
+		isScreen:false
 		
 	}
 

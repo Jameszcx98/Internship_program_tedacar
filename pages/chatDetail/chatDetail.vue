@@ -226,7 +226,9 @@
 				Parse.Cloud.run('addMessage', {
 					message: this.message,
 					conversationId: currentConversationId,
-					sender: host,
+					from: fromId,
+					to:toId
+					
 				}).then( r => {
 					console.log(r);
 					this.message = '';
