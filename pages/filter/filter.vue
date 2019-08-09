@@ -84,10 +84,10 @@
 						<RangeSlider :width="range1.slideWidth" :height="range1.slideHeight" :blockSize="range1.slideBlockSize" :min="range1.slideMin"
 						 :max="range1.slideMax" :values="range1.rangeValues" :step="range1.step" :liveMode="range1.isLiveMode"
 						 @rangechange="onRangeChange">
-							<view slot="minBlock" class="range-slider-block"></view>
+							<view slot="minBlock" @touchend='changeRange("range1",range1.rangeValues)' class="range-slider-block">11111</view>
 
 							<!-- 左边滑块的内容 -->
-							<view slot="maxBlock" class="range-slider-block"></view>
+							<view slot="maxBlock" @touchend='changeRange("range1",range1.rangeValues)' class="range-slider-block"></view>
 							<!-- 右边滑块的内容 -->
 						</RangeSlider>
 						<view class="text-orange cur flex" style="position: absolute;top:80upx;height: 50upx;text-align:left;width: 450rpx;overflow: hidden;white-space: nowrap;">
@@ -316,6 +316,25 @@
 
 
 		},
+		// computed:{
+		// 	changeRange(range,value){//存滑块的数据
+		// 		let newrang=this.$store.state.rang;
+		// 		let allrang=this.$store.state.rang;
+		// 		allrang.forEach((a,b)=>{
+		// 			if(a.range==range){
+		// 				newrang[b].value=value
+		// 			}else{
+		// 				newrang.push({
+		// 					range:range,
+		// 					value:value
+		// 				})
+		// 			}
+		// 		})
+		// 		return this.$store.commit('setRang',newrang)
+		// 	},
+		// },
+		// watch:{
+		// },
 		methods: {
 
 			reset() { //重置所以筛选属性
@@ -422,9 +441,17 @@
 				this.lookup() //发送请求进行筛选
 			},
 			changeRange(range,value){//存滑块的数据
+				console.log('000000')
 				let newrang=this.$store.state.rang;
 				let allrang=this.$store.state.rang;
-				allrang.forEach((a,b)=>{
+				console.log('99999'+allrang.length)
+				if(allrang.length==0){
+					newrang.push({
+							range:range,
+							value:value
+						})
+				}else{
+					allrang.forEach((a,b)=>{
 					if(a.range==range){
 						newrang[b].value=value
 					}else{
@@ -434,7 +461,10 @@
 						})
 					}
 				})
+				}
+				
 				this.$store.commit('setRang',newrang)
+				console.log('ggggg'+JSON.stringify(this.$store.state.rang))
 			},
 			
 			getAttribute() { //获取所有筛选标签
