@@ -168,16 +168,19 @@
 			this.$store.commit('setScreenResults',[])
 			this.$store.commit('setOldlist',[])
 			if (this.$store.state.isScreen) {//判断筛选是否重置
-				this.$store.commit('setCurrentPage',0)
-			}else{//重置执行初始化函数
+			// console.log(":::::::");
 				this.$store.commit('setCurrentPage',1)
+				this.screenLookup()
+				
+			}else{//重置执行初始化函数
+				this.$store.commit('setCurrentPage',0)
 				this.getAttribute()//初始化list
 			}
 	
 			this.priceList = data.priceList
 			this.checkbox4 = data.checkbox4
 			this.checkbox5 = data.checkbox5
-			console.log('aaaaaaaaaa')
+			// console.log('aaaaaaaaaa')
 		},
 		onPullDownRefresh(){
 			this.$store.commit('setScreenResults',[])
@@ -186,7 +189,7 @@
 				this.$store.commit('setCurrentPage',0)
 				this.screenLookup()
 			}else{
-				console.log('无')
+				// console.log('无')
 				this.$store.commit('setCurrentPage',0)
 				this.lookup()
 			}
@@ -203,7 +206,7 @@
 			
 		},
 		onShow() {
-			console.log('bbbbbbbbb')
+			// console.log('bbbbbbbbb')
 			this.$store.commit('setScreenResults',[])
 			this.$store.commit('setOldlist',[])
 			if (this.$store.state.isScreen) {//判断筛选是否重置
