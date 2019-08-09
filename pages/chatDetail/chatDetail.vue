@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view style="margin-bottom: 100upx;">
 		<!-- Header -->
 		<cu-custom :isBack="true" bgColor="bg-teda text-white">
 			<block slot="backText">返回</block>
@@ -12,14 +12,15 @@
 		<view v-for="(msg, index) in messages" :key="index" class="cu-chat">
 		
 			<!-- Message by user1 (Host) -->
-			<view v-if="msg.sender == 'User1'" class="cu-item self">
+			<view v-if="msg.sender == 'b7n8SBW7gg'" class="cu-item self">
 				<view class="main">
+						<view class="date">{{msg.time}}</view>
 					<view class="content bg-green shadow">
 						<text>{{msg.message}}</text>
 					</view>
 				</view>
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big107000.jpg);"></view>
-				<view class="date">{{msg.time}}</view>
+			
 			</view>
 			<!-- Message by user1 (Host) -->
 			
@@ -27,14 +28,15 @@
 			
 			
 			<!-- Message by user2 (Guest)-->
-			<view v-if="msg.sender == 'User2'" class="cu-item">
+			<view v-if="msg.sender == 'WyyKaMWhab' " class="cu-item">
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big143004.jpg);"></view>
 				<view class="main">
+					<view class="date ">{{msg.time}}</view>
 					<view class="content shadow">
 						<text>{{msg.message}}</text>
 					</view>
 				</view>
-				<view class="date ">{{msg.time}}</view>
+				
 			</view>
 			<!-- Message by user2 (Guest)-->
 			
@@ -42,19 +44,19 @@
 				<!-- <text class="cuIcon-roundclosefill text-red "></text> 对方拒绝了你的消息 -->
 			<!-- </view> -->
 			
-			<view class="cu-info">
+			<!-- <view class="cu-info">
 				对方开启了好友验证，你还不是他(她)的好友。请先发送好友验证请求，对方验证通过后，才能聊天。
 				<text class="text-blue">发送好友验证</text>
-			</view>
+			</view> -->
 			
 			<!-- Send media -->
-			<view class="cu-item self">
+			<!-- <view class="cu-item self">
 				<view class="main">
 					<image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg" class="radius" mode="widthFix"></image>
 				</view>
 				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big107000.jpg);"></view>
 				<view class="date"> 13:23</view>
-			</view>
+			</view> -->
 			<!-- Send media -->
 			
 			<!-- Send voice message -->
@@ -153,27 +155,37 @@
 			this.cId = this.convoId[this.user1 + this.user2];
 			console.log("Current conversation id: ", this.cId);
 			this.getConversation();
-			this.keepTracking();
+			//this.getMyObjectId()
+			//this.keepTracking();
 		},
 
 		data() {
 			return {
 				InputBottom: 0,
 				isRouterAlive: true,    // Used to reload page
+				hostId:'',
+				//opId:'WyyKaMWhab',
 
+				chatOppId:'',
 				cId: '',    // Conversation id
 				user1: '',    // Host (me)
 				user2: '',    // Guest (him)
 				messages: [],    // Messages list from the firebase
 				message: '',    // Message to be sent
+				chatOppId:''
 			};
 		},
+		
 
 		onLoad() {
+			this.chatOppId = this.$root.$mp.query.id;
+			//this.getMyObjectId()
+			console.log(this.chatOppId)
 			
 		},
 
 		onShow() {
+			this.chatOppId = this.$root.$mp.query.id;
 			init(this.callLiveQuery);		
 			getUpdate(this.createLiveQuery);
 		},
@@ -183,6 +195,16 @@
 		},
 
 		methods: {
+			getMyObjectId(){
+				Parse.Cloud.run('getMyId').then( r => {
+					this.hostId = r
+				
+					})
+				.catch( e => {
+					console.log(e);
+				})
+				
+			},
 			callLiveQuery() {
 				console.log("Live query called");
 			},
@@ -193,9 +215,29 @@
 			},
 
 			getConversation() {
-				Parse.Cloud.run('getMessage', {conversationId: this.cId}).then( r => {
+				Parse.Cloud.run('getMessage').then( r => {
 					this.messages = r;
-					// console.log("Message List:", this.messages);
+					console.log("Message List:", this.messages);
+					uni.pageScrollTo({
+						scrollTop: 250,
+						duration: 300
+					});
+				}).catch( e => {
+					console.log(e);
+				})
+				
+				
+				
+				
+				
+				
+				Parse.Cloud.run('getMessage', {
+					conversationId: this.cId,
+					oppId:this.chatOppId
+					
+				}).then( r => {
+					this.messages = r;
+					console.log("Message List:", this.messages);
 					uni.pageScrollTo({
 						scrollTop: 250,
 						duration: 300
@@ -219,7 +261,7 @@
 			send() {    // Host -> Guest
 				// let host = this.user2;
 				// let guest = this.user1;
-				let toId = 'WyyKaMWhab'  //j
+				//let toId = 'WyyKaMWhab'  //j
 				let fromId = 'b7n8SBW7gg'  //i
 				let currentConversationId = this.cId;
 				
@@ -227,7 +269,7 @@
 					message: this.message,
 					conversationId: currentConversationId,
 					from: fromId,
-					to:toId
+					to:this.chatOppId
 					
 				}).then( r => {
 					console.log(r);
