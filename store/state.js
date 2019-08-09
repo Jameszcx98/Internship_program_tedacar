@@ -13,6 +13,7 @@ const state = {
 		// Conversation id
 		convoId: {},
 		choose2:[],//筛选条件
+		rang:[],//滑动条件
 		allCondition:[],//所以筛选条件
 		currentPage:1,
 		pageSize:5,
