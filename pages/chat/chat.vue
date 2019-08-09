@@ -60,6 +60,7 @@
 				user2 : 'User2',
 				cId: '',    // Conversation id
 				message: 'Hey, how are you?',
+				skipnumber:0
 				//followingList: [],  
 			};
 		},
@@ -76,10 +77,15 @@
 			this.getStatus(0)
 		},
 
-		computed: {
-			...mapState(['convoId']),    // Load from state	
+	
+		onReachBottom: function() {
+			this.getStatus(10)
 		},
 		
+		
+		onPullDownRefresh: function (){
+			this.getStatus(0)
+		},
 		methods: {
 			getStatus(num){      //拿关注列表
 				if(num==0){
@@ -97,9 +103,8 @@
 					this.chatList.push(y)
 					console.log("chatList:",JSON.stringify(this.chatList)) //x.following.wxProfile.nickName
 					});
-					
-					console.log('sdffadfgghhhhhhhh')
-				}).catch(e => {
+				})
+				.catch(e => {
 				console.log('????' + JSON.stringify(e));
 				});
 				 

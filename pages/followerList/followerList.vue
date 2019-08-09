@@ -63,7 +63,7 @@
 
 		
 		onReachBottom: function() {
-			this.getStatus(0)
+			this.getStatus(10)
 		},
 		
 		
