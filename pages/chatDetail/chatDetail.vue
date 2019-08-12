@@ -168,6 +168,7 @@
 		
 		onShow() {
 			this.chatOppId = this.$root.$mp.query.id;
+			console.log('dgafaaa'+this.chatOppId)
 			this.getConversation() 
 			// init(this.callLiveQuery);		
 			this.getUpdateNews();

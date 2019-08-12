@@ -53,11 +53,14 @@
 				followingList: [],
 				tempaddr:'https://tedacar.oss-us-east-1.aliyuncs.com/',
 				targetId:'',
-				skipnumber:0
+				skipnumber:0,
+				locationId:''
 			};
 		},
 
 		onShow() {
+			this.locationId = this.$root.$mp.query.id
+			console.log('gdaffa'+this.locationId)
 			this.getStatus(0)
 		},
 
@@ -79,7 +82,8 @@
 					this.skipnumber+=num
 				}
 				Parse.Cloud.run('getFollowingList',{
-					number:this.skipnumber
+					number:this.skipnumber,
+					id:this.locationId
 				})
 				.then( r=>{
 					r.map(x=>{

@@ -52,11 +52,13 @@
 			return {
 				followerList: [],
 				tempaddr:'http://tedacar.oss-us-east-1.aliyuncs.com/',
-				skipnumber:0
+				skipnumber:0,
+				locationId:''
 			};
 		},
 
 		onShow() {
+			this.locationId = this.$root.$mp.query.id
 			this.getStatus(0)
 			this.subscribe()
 		},
@@ -79,7 +81,8 @@
 					this.skipnumber+=num
 				}
 				Parse.Cloud.run('getFollowerList',{
-					number:this.skipnumber
+					number:this.skipnumber,
+					id:this.locationId
 				})
 				.then( r=>{
 					r.map(x=>{

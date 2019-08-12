@@ -1,9 +1,13 @@
 
  <template>
  	<view class="page">
- 		<cu-custom bgColor="my_header_background" :isBack="true">
+		<cu-custom bgColor="bg-teda text-white">
+
+			<block slot="content">评论</block>
+		</cu-custom>
+ 		<!-- <cu-custom bgColor="my_header_background" :isBack="true">
  			<block slot="content">评论</block>
- 		</cu-custom>
+ 		</cu-custom> -->
  
  		<view class="cu-bar bg-white solid-bottom ">
  			<view v-if="initDate.tip" class="action">
