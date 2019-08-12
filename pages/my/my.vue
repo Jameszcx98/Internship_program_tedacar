@@ -40,30 +40,27 @@
    </view>
  -->
 
-   <view class="cu-list menu-avatar">
-    <view class="cu-item">
-     <view class="cu-avatar round lg" :style=" 'background-image:url('+userInfo.wxProfile.avatarUrl+');'"></view>
-     <view class="content" style="width: calc(100% - 200upx)">
-      <view>
-       <text class="text-cut margin-top-sm">{{userInfo.wxProfile.nickName}}<text class='cu-tag radius text-teda text-sm margin-left-xs'>认证用户/商家</text></text>
-      </view>
-      <view class="  padding-top-xs"> 
-   <view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
-    帖子获赞{{userInfo.likenumber}}
-   </view>
-   <view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
-    粉丝{{userInfo.follower}}
-    <view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
-   </view>
-   <view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
-    关注{{userInfo.following}}
-   </view>
-      
-
-       
-      </view>
-     </view>
-    </view>
+	<view class="cu-list menu-avatar">
+		<view class="cu-item">
+			<view class="cu-avatar round lg" :style=" 'background-image:url('+userInfo.wxProfile.avatarUrl+');'"></view>
+			<view class="content" style="width: calc(100% - 200upx)">
+				<view>
+					<text class="text-cut margin-top-sm">{{userInfo.wxProfile.nickName}}<text class='cu-tag radius text-teda text-sm margin-left-xs'>认证用户/商家</text></text>
+				</view>
+				<view class="  padding-top-xs"> 
+					<view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
+						帖子获赞{{userInfo.likenumber}}
+					</view>
+					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
+						粉丝{{userInfo.follower}}
+						<view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
+					</view>
+					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
+						关注{{userInfo.following}}
+					</view>
+				</view>
+			</view>
+		</view>
    </view>
    <!-- 个人资料 -->
    <!-- <button type="primary" @click="connectMagento()">注册到magento</button>  -->
@@ -100,7 +97,7 @@
 
    <!-- 列表菜单 -->
    
-   <view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']">
+   <!-- <view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']"> -->
     <view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']">
       <view class="cu-item arrow" @tap="jump('garage')">
        <navigator class="content" hover-class="none" open-type="redirect" url="">
@@ -253,7 +250,9 @@
 		this.newsStatus = true
      
      
-    })
+    }).catch( e => {
+		console.log('??????????登录失败');
+		})
     
    },
    

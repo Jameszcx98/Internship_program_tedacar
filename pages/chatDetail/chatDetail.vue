@@ -9,36 +9,37 @@
 		
 		
 		<!-- Conversation section -->
-		<view v-for="(msg, index) in messages" :key="index" class="cu-chat">
-		
-			<!-- Message by user1 (Host) -->
-			<view v-if="msg.sender == 'b7n8SBW7gg'" class="cu-item self">
+	
+		<view v-for="(msg, index) in messages" :key="index" class="cu-chat" >
+			<!-- Message by me (Host) -->
+			<view v-if='msg.from&&msg.from.objectId!=chatOppId' class="cu-item self">
 				<view class="main">
-						<view class="date">{{msg.time}}</view>
+						<!-- <view class="date">{{msg.from.time}}</view> -->
 					<view class="content bg-green shadow">
-						<text>{{msg.message}}</text>
+						<text>{{msg.text}}</text>	
 					</view>
 				</view>
-				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big107000.jpg);"></view>
-			
+				<view v-if="msg.from" class="cu-avatar radius " :style="'background-image:url(' + msg.from.wxProfile.avatarUrl + ')'"></view>
 			</view>
-			<!-- Message by user1 (Host) -->
-			
-			<!-- <view class="cu-info round">对方撤回一条消息!</view> -->
-			
-			
 			<!-- Message by user2 (Guest)-->
-			<view v-if="msg.sender == 'WyyKaMWhab' " class="cu-item">
-				<view class="cu-avatar radius" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big143004.jpg);"></view>
+			<view v-else class="cu-item">
+				<view v-if="msg.from" class="cu-avatar radius" :style="'background-image:url(' + msg.from.wxProfile.avatarUrl + '); margin-left: 0;'"></view>
 				<view class="main">
-					<view class="date ">{{msg.time}}</view>
+					<!-- <view class="date ">{{msg.to.time}}</view> -->
 					<view class="content shadow">
-						<text>{{msg.message}}</text>
+						<text>{{msg.text}}</text>
 					</view>
 				</view>
 				
 			</view>
 			<!-- Message by user2 (Guest)-->
+		</view>
+			<!-- Message by user1 (Host) -->
+			
+			<!-- <view class="cu-info round">对方撤回一条消息!</view> -->
+			
+			
+			
 			
 			<!-- <view class="cu-info"> -->
 				<!-- <text class="cuIcon-roundclosefill text-red "></text> 对方拒绝了你的消息 -->
@@ -103,7 +104,7 @@
 				<view class="date">13:23</view>
 			</view> -->
 			<!-- Translation -->
-		</view>
+		
 		<!-- Conversation section -->
 		
 		
@@ -119,6 +120,7 @@
 			</view>
 			<button @tap="send()" class="cu-btn bg-green shadow">发送</button>
 		</view>
+		
 		<!-- Send bar -->
 		
 
@@ -131,63 +133,44 @@
 	import { mapState } from 'vuex';
 	import { constants } from 'fs';
 
-	// Init the subscription of live query
-	let query = new Parse.Query('Conversations');
-	let subscription = query.subscribe();
-
-	function init(x){
-		return subscription.on('open', x);
-	}
-	
-	function getUpdate(x) {
-		return subscription.on('create', x);
-	}
-
 	
 
 	export default {
 
-		mounted() {
-			//获取页面传的参数
-			this.user1 = this.$root.$mp.query.user1;
-			this.user2 = this.$root.$mp.query.user2;
-
-			this.cId = this.convoId[this.user1 + this.user2];
-			console.log("Current conversation id: ", this.cId);
-			this.getConversation();
-			//this.getMyObjectId()
-			//this.keepTracking();
-		},
+// 		mounted() {
+// 			//获取页面传的参数
+// 			this.user1 = this.$root.$mp.query.user1;
+// 			this.user2 = this.$root.$mp.query.user2;
+// 
+// 			this.cId = this.convoId[this.user1 + this.user2];
+// 			console.log("Current conversation id: ", this.cId);
+// 			this.getConversation();
+// 			//this.getMyObjectId()
+// 			//this.keepTracking();
+// 		},
 
 		data() {
 			return {
 				InputBottom: 0,
 				isRouterAlive: true,    // Used to reload page
 				hostId:'',
-				//opId:'WyyKaMWhab',
-
-				chatOppId:'',
+				chatOppId: '',
 				cId: '',    // Conversation id
 				user1: '',    // Host (me)
 				user2: '',    // Guest (him)
 				messages: [],    // Messages list from the firebase
 				message: '',    // Message to be sent
-				chatOppId:''
+				
 			};
 		},
 		
 
-		onLoad() {
-			this.chatOppId = this.$root.$mp.query.id;
-			//this.getMyObjectId()
-			console.log(this.chatOppId)
-			
-		},
-
+		
 		onShow() {
 			this.chatOppId = this.$root.$mp.query.id;
-			init(this.callLiveQuery);		
-			getUpdate(this.createLiveQuery);
+			this.getConversation() 
+			// init(this.callLiveQuery);		
+			this.getUpdateNews();
 		},
 
 		computed: {
@@ -195,16 +178,59 @@
 		},
 
 		methods: {
-			getMyObjectId(){
-				Parse.Cloud.run('getMyId').then( r => {
-					this.hostId = r
-				
+			getConversation() {
+				Parse.Cloud.run('getMessage', {
+					oppId:this.chatOppId,
+					number:0
+				}).then( r => {
+					if(r[0].length ==1){
+						this.hostId = r[0]
+					}else{
+					r.map(x=>x._toFullJSON())
+					this.messages = r;
+					console.log('ardfafa'+JSON.stringify(this.messages))
+					uni.pageScrollTo({
+						scrollTop: 250,
+						duration: 300
 					})
-				.catch( e => {
+					}
+				}).catch( e => {
 					console.log(e);
 				})
-				
 			},
+			
+			send() {   
+				Parse.Cloud.run('addMessage', {
+					message: this.message,
+					to:this.chatOppId
+				}).then( r => {
+					this.message = '';
+				}).catch( e => {
+					console.log("Not sent...", e);
+				})
+			},
+			
+			getUpdateNews(){
+				let queryNews = new Parse.Query('Message');
+				let subscriptionNews = queryNews.subscribe();
+				subscriptionNews.on('open', ()=>{
+					console.log('Message subscribe')
+					})
+				subscriptionNews.on('create', (object)=>{
+						let x = object._toFullJSON()
+						if( this.chatOppId == x.from.objectId||x.from.objectId == this.hostId||x.from.object == this.messages[0].userId){
+							if(x.to.objectId == this.chatOppId||x.to.objectId == this.hostId||x.to.object == this.messages[0].userId){
+								this.messages.push(x)
+							}
+							
+						}
+					
+					
+					
+				})
+				},
+				
+		
 			callLiveQuery() {
 				console.log("Live query called");
 			},
@@ -214,38 +240,7 @@
 				this.getConversation();
 			},
 
-			getConversation() {
-				Parse.Cloud.run('getMessage').then( r => {
-					this.messages = r;
-					console.log("Message List:", this.messages);
-					uni.pageScrollTo({
-						scrollTop: 250,
-						duration: 300
-					});
-				}).catch( e => {
-					console.log(e);
-				})
-				
-				
-				
-				
-				
-				
-				Parse.Cloud.run('getMessage', {
-					conversationId: this.cId,
-					oppId:this.chatOppId
-					
-				}).then( r => {
-					this.messages = r;
-					console.log("Message List:", this.messages);
-					uni.pageScrollTo({
-						scrollTop: 250,
-						duration: 300
-					});
-				}).catch( e => {
-					console.log(e);
-				})
-			},
+			
 
 			keepTracking() {
 				Parse.Cloud.run('keepTracking', {conversationId: this.cId}).then( r => {
@@ -258,28 +253,7 @@
 				})
 			},
 			
-			send() {    // Host -> Guest
-				// let host = this.user2;
-				// let guest = this.user1;
-				//let toId = 'WyyKaMWhab'  //j
-				let fromId = 'b7n8SBW7gg'  //i
-				let currentConversationId = this.cId;
-				
-				Parse.Cloud.run('addMessage', {
-					message: this.message,
-					conversationId: currentConversationId,
-					from: fromId,
-					to:this.chatOppId
-					
-				}).then( r => {
-					console.log(r);
-					this.message = '';
-
-
-				}).catch( e => {
-					console.log("Not sent...", e);
-				})
-			},
+			
 			
 			
 			InputFocus(e) {
