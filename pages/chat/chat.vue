@@ -4,6 +4,14 @@
 			<block slot="backText">返回</block>
 			<block slot="content">聊天</block>
 		</cu-custom>
+		
+		<scroll-view scroll-x class="bg-white nav">
+			<view class="flex text-center">
+				<view class="cu-item flex-sub" :class="index==TabCur?'text-teda cur':''" v-for="(item,index) in 2" :key="index" @tap="tabSelect" :data-id="index">
+					{{Tab[index]}}
+				</view>
+			</view>
+		</scroll-view>
 
 		<!-- 聊天列表 -->
 		<!-- <view class="cu-list menu-avatar" @tap="jump('chatDetail')">
@@ -60,8 +68,11 @@
 				user2 : 'User2',
 				cId: '',    // Conversation id
 				message: 'Hey, how are you?',
-				skipnumber:0
+				skipnumber:0,
 				//followingList: [],  
+				TabCur: 0,
+				scrollLeft: 0,
+				Tab:['我关注的','未关注的']
 			};
 		},
 
@@ -87,6 +98,30 @@
 			this.getStatus(0)
 		},
 		methods: {
+			tabSelect(e) {
+				this.TabCur = e.currentTarget.dataset.id;
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+				
+				console.log(this.TabCur)
+				
+				this.chatList = []
+				Parse.Cloud.run('getChatList',{
+					number:this.skipnumber,
+					method:this.TabCur
+				})
+				.then( r=>{
+					r.map(x=>{
+					let y = x._toFullJSON()
+					this.chatList.push(y)
+					console.log("chatList:",JSON.stringify(this.chatList)) //x.following.wxProfile.nickName
+					});
+				})
+				.catch(e => {
+				console.log('????' + JSON.stringify(e));
+				});
+				 
+			},
+			
 			getStatus(num){      //拿关注列表
 				if(num==0){
 					this.chatList = []
