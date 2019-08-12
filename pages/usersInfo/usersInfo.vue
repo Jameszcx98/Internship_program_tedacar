@@ -29,7 +29,7 @@
 		</view>
 		
 		<view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']">
-			<view class="cu-item arrow" @tap='toChatDetail' :date-id='targetUserId'>
+			<view class="cu-item arrow" @tap="toChatDetail" :data-id='targetUserId'>
 			<navigator class="content" hover-class="none" open-type="redirect" url="">
 			 <text class="cuIcon-friendadd text-black"></text>
 			 <text class="text-grey">聊天</text>
@@ -104,15 +104,15 @@
 		
 		
 	   
-	   connectMagento() {
-		
-		let Uid = Parse.User.current().toJSON().authData.weapp.id
-		Parse.Cloud.run('customers', {
-		  id: Uid
-		 })
-		 .then(r => console.log('r' + JSON.stringify(r)))
-		 .catch(e => console.log('e' + JSON.stringify(e)))
-	   },
+	 //   connectMagento() {
+		// 
+		// let Uid = Parse.User.current().toJSON().authData.weapp.id
+		// Parse.Cloud.run('customers', {
+		//   id: Uid
+		//  })
+		//  .then(r => console.log('r' + JSON.stringify(r)))
+		//  .catch(e => console.log('e' + JSON.stringify(e)))
+	 //   },
 	   
 	   jump(pageName) {
 		uni.navigateTo({

@@ -17,7 +17,7 @@
 			</view>
 		</view> -->
 		
-		<div class="cu-bar padding-lr bg-white solid ">
+		<!-- <div class="cu-bar padding-lr bg-white solid ">
 			<div class="item" @click='getStatus(0)'>
 				{{ i18n.comFollow }}
 				<text class=" margin-left-xs"></text>
@@ -26,7 +26,7 @@
 				{{ i18n.comPublic }}
 				<text class=" margin-left-xs"></text>
 			</div>
-		</div>
+		</div> -->
 
 		<view class="cu-list menu-avatar" >
 			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index" @tap="toDetail" :data-id="x.friend.objectId">

@@ -60,6 +60,7 @@
 
 		onShow() {
 			this.locationId = this.$root.$mp.query.id
+			console.log('gdaffa'+this.locationId)
 			this.getStatus(0)
 		},
 
