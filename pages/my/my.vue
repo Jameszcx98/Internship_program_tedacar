@@ -166,7 +166,7 @@
       </view>
      </view>
     <footMenu :pageUrl="'my'"></footMenu>
-   </view>
+ 
    <!-- 列表菜单 -->
   </div>
 
@@ -198,6 +198,7 @@
   onShow(){
    this.getuserStatus();
    this.getUpdateNews();
+   this.getUser()
    // this.getUpdateFollower();
   
   },
@@ -216,8 +217,9 @@
 	addStatus:'',
 	newsNumber:0,
  	newsStatus:'',
-	addFollowerNumber:0
-	
+	addFollowerNumber:0,
+	userImg:'',
+	userName:''
 	
     
    };
@@ -225,7 +227,12 @@
   
 // 
   methods: {
-   
+   getUser(){//获取用户信息
+		let userInfo=Parse.User.current()._toFullJSON();
+		this.userImg=userInfo.wxProfile.avatarUrl
+		this.userName=userInfo.wxProfile.nickName
+				
+	},
    getuserStatus(){
 	   
 	
