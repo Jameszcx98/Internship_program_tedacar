@@ -16,11 +16,11 @@
 							<view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
 								帖子获赞{{userInfo.likenumber}}
 							</view>
-							<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
+							<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="tofollowerList" :data-id='targetUserId'>
 								粉丝{{userInfo.follower}}
 								<view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
 							</view>
-							<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
+							<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="tofollowingList" :data-id='targetUserId'>
 								关注{{userInfo.following}}
 							</view>
 						</view>
@@ -29,7 +29,7 @@
 		</view>
 		
 		<view class="cu-list menu" :class="[menuBorder?'sm-border':'',menuCard?'card-menu margin-top':'']">
-			<view class="cu-item arrow" @tap="jump('garage')">
+			<view class="cu-item arrow" @tap='toChatDetail' :date-id='targetUserId'>
 			<navigator class="content" hover-class="none" open-type="redirect" url="">
 			 <text class="cuIcon-friendadd text-black"></text>
 			 <text class="text-grey">聊天</text>
@@ -122,7 +122,27 @@
 		 complete: () => {}
 		});
 	   },
-	   
+	   tofollowerList(e) {
+	   	console.log('e' + JSON.stringify(e));
+	   	let id = e.mp.currentTarget.dataset.id;
+	   	uni.navigateTo({
+	   		url: `../followerList/followerList?id=${id}`
+	   	});
+	   },
+	   tofollowingList(e) {
+	   	console.log('e' + JSON.stringify(e));
+	   	let id = e.mp.currentTarget.dataset.id;
+	   	uni.navigateTo({
+	   		url: `../followingList/followingList?id=${id}`
+	   	});
+	   },
+	   toChatDetail(e) {
+	   	console.log('e' + JSON.stringify(e));
+	   	let id = e.mp.currentTarget.dataset.id;
+	   	uni.navigateTo({
+	   		url: `../chatDetail/chatDetail?id=${id}`
+	   	});
+	   },
 	   changeLanguage(e) {
 		// console.log('修改语言' + e.target.value);
 		if (e.target.value) {
