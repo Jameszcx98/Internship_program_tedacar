@@ -10,8 +10,9 @@
 
 				<view class="action"  v-else>
 					<slot name="userCenter" class="user_center shadow">
-						<view class="cu-avatar round " style=" background-image:url(https://ossweb-img.qq.com/images/lol/img/champion/Morgana.png); margin-left: 0;"
+						<view v-if="!!userImg" class="cu-avatar round " :style="{backgroundImage: 'url(' + userImg + ')'}"
 						 @tap="showModal" data-target="DrawerModalL"></view>
+						 
 					</slot>
 				</view>
 				
@@ -115,12 +116,14 @@
 </template>
 
 <script>
+	import Parse from '../common/parse.js'
 	export default {
 		data() {
 			return {
 				CustomBar: this.CustomBar,
 				modalName: null,
 				StatusBar: this.StatusBar,
+				userImg:''
 			};
 		},
 
@@ -151,7 +154,15 @@
 				default: ''
 			},
 		},
+		onShow(){
+			this.getUser()
+		},
 		methods: {
+			getUser(){//获取用户信息
+				 let userInfo=Parse.User.current()._toFullJSON();
+				 this.userImg=userInfo.wxProfile.avatarUrl
+				
+			},
 			showModal(e) {
 				this.modalName = e.currentTarget.dataset.target
 			},

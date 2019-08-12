@@ -42,10 +42,10 @@
 
    <view class="cu-list menu-avatar">
     <view class="cu-item">
-     <view class="cu-avatar round lg" :style=" 'background-image:url('+userInfo.wxProfile.avatarUrl+');'"></view>
+     <view class="cu-avatar round lg" :style=" 'background-image:url('+userImg+');'"></view>
      <view class="content" style="width: calc(100% - 200upx)">
       <view>
-       <text class="text-cut margin-top-sm">{{userInfo.wxProfile.nickName}}<text class='cu-tag radius text-teda text-sm margin-left-xs'>认证用户/商家</text></text>
+       <text class="text-cut margin-top-sm">{{userName}}<text class='cu-tag radius text-teda text-sm margin-left-xs'>认证用户/商家</text></text>
       </view>
       <view class="  padding-top-xs"> 
    <view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
@@ -201,6 +201,7 @@
   onShow(){
    this.getuserStatus();
    this.getUpdateNews();
+   this.getUser()
    // this.getUpdateFollower();
   
   },
@@ -219,8 +220,9 @@
 	addStatus:'',
 	newsNumber:0,
  	newsStatus:'',
-	addFollowerNumber:0
-	
+	addFollowerNumber:0,
+	userImg:'',
+	userName:''
 	
     
    };
@@ -228,7 +230,12 @@
   
 // 
   methods: {
-   
+   getUser(){//获取用户信息
+		let userInfo=Parse.User.current()._toFullJSON();
+		this.userImg=userInfo.wxProfile.avatarUrl
+		this.userName=userInfo.wxProfile.nickName
+				
+	},
    getuserStatus(){
 	   
 	
