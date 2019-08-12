@@ -51,11 +51,11 @@
 					<view  class=' cu-avatar sm radius text-black' style="width: 150upx;">
 						帖子获赞{{userInfo.likenumber}}
 					</view>
-					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followerList')">
+					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="tofollowerList" :data-id = 'userInfo.objectId'>
 						粉丝{{userInfo.follower}}
 						<view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
 					</view>
-					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="jump('followingList')" >
+					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="tofollowingList" :data-id = 'userInfo.objectId' >
 						关注{{userInfo.following}}
 					</view>
 				</view>
@@ -338,6 +338,22 @@
      complete: () => {}
     });
    },
+   
+    tofollowerList(e) {
+   	console.log('e' + JSON.stringify(e));
+   	let id = e.mp.currentTarget.dataset.id;
+   	uni.navigateTo({
+   		url: `../followerList/followerList?id=${id}`
+   	});
+   },
+   tofollowingList(e) {
+   	console.log('e' + JSON.stringify(e));
+   	let id = e.mp.currentTarget.dataset.id;
+   	uni.navigateTo({
+   		url: `../followingList/followingList?id=${id}`
+   	});
+   },
+   
    
    changeLanguage(e) {
     // console.log('修改语言' + e.target.value);

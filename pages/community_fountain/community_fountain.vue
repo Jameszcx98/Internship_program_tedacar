@@ -30,7 +30,7 @@
 						<view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
 					</view>
 					
-					<view class="cu-list menu-avatar" v-if="x.user" @tap="jump('usersInfo')" :data-id="x.user.objectId">
+					<view class="cu-list menu-avatar" v-if="x.user" @tap="toUsers" :data-id="x.user.objectId" >
 						<view class="cu-item " style="height: 100upx;">
 							<view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
 							<view class="" style="width: 65%;">
@@ -59,7 +59,7 @@
 						<view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
 					</view>
 					
-					<view class="cu-list menu-avatar" v-if="x.user"  @tap="toUsers" :data-id="x.user.objectId">
+					<view class="cu-list menu-avatar" v-if="x.user" @tap="toUsers" :data-id="x.user.objectId">
 						<view class="cu-item " style="height: 100upx;">
 							<view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
 							<view class="" style="width: 65%;">
@@ -88,7 +88,7 @@
 						<view class="bg-img only-img" :style=" 'background-image:url('+ tempaddr+x.poster+');'"></view>
 					</view>
 					
-					<view class="cu-list menu-avatar" v-if="x.user"  @tap="toUsers" :data-id="x.user.objectId">
+					<view class="cu-list menu-avatar" v-if="x.user" @tap="toUsers" :data-id="x.user.objectId">
 						<view class="cu-item " style="height: 100upx;">
 							<view class="cu-avatar round " :style="'background-image:url(' + x.user.wxProfile.avatarUrl + ')'"></view>
 							<view class="" style="width: 65%;">
@@ -310,17 +310,17 @@ export default {
 				url: `../communityDetail/communityDetail?id=${id}`
 			});
 		},
-		// toUsers(e) {
-		// 	console.log('e' + JSON.stringify(e));
-		// 	let id = e.mp.currentTarget.dataset.id;
-		// 	uni.navigateTo({
-		// 		url: `../usersInfo/usersInfo?id=${id}`
-		// 	});
-		// },
-		jump(pageName,e) {
+		toUsers(e) {
+			console.log('e' + JSON.stringify(e));
 			let id = e.mp.currentTarget.dataset.id;
 			uni.navigateTo({
-				url: `../${pageName}/${pageName}?id=${id}`,
+				url: `../usersInfo/usersInfo?id=${id}`
+			});
+		},
+		jump(pageName) {
+			
+			uni.navigateTo({
+				url: `../${pageName}/${pageName}`,
 				success: res => {},
 				fail: () => {},
 				complete: () => {}
