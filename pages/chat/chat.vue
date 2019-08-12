@@ -94,23 +94,30 @@
 		// },
 		onShow(){
 			console.log('gsdrfgf')
-			this.getStatus(0)
+			this.tabSelect(0)
 		},
 
 	
 		onReachBottom: function() {
-			this.getStatus(10)
+			this.tabSelect(10)
 		},
 		
 		
 		onPullDownRefresh: function (){
-			this.getStatus(0)
+			this.tabSelect(0)
 		},
 		methods: {
 			tabSelect(e) {
+				if(e==0){
+					
+					this.skipnumber = 0
+				}else if(e == 10){
+					
+					this.skipnumber+=e
+				}else{
 				this.TabCur = e.currentTarget.dataset.id;
 				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
-				
+				}
 				console.log(this.TabCur)
 				
 				this.chatList = []
@@ -131,28 +138,28 @@
 				 
 			},
 			
-			getStatus(num){      //拿关注列表
-				if(num==0){
-					this.chatList = []
-					this.skipnumber = 0
-				}else{
-					this.skipnumber+=num
-				}
-				Parse.Cloud.run('getChatList',{
-					number:this.skipnumber
-				})
-				.then( r=>{
-					r.map(x=>{
-					let y = x._toFullJSON()
-					this.chatList.push(y)
-					console.log("chatList:",JSON.stringify(this.chatList)) //x.following.wxProfile.nickName
-					});
-				})
-				.catch(e => {
-				console.log('????' + JSON.stringify(e));
-				});
-				 
-			},
+			// getStatus(num){      //拿关注列表
+			// 	if(num==0){
+			// 		this.chatList = []
+			// 		this.skipnumber = 0
+			// 	}else{
+			// 		this.skipnumber+=num
+			// 	}
+			// 	Parse.Cloud.run('getChatList',{
+			// 		number:this.skipnumber
+			// 	})
+			// 	.then( r=>{
+			// 		r.map(x=>{
+			// 		let y = x._toFullJSON()
+			// 		this.chatList.push(y)
+			// 		console.log("chatList:",JSON.stringify(this.chatList)) //x.following.wxProfile.nickName
+			// 		});
+			// 	})
+			// 	.catch(e => {
+			// 	console.log('????' + JSON.stringify(e));
+			// 	});
+			// 	 
+			// },
 			
 // 			getChatList(){
 // 				Parse.Cloud.run('getChatList')
