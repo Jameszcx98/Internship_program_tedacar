@@ -1,10 +1,15 @@
 
  <template>
- 	<view class="page">
-		<cu-custom bgColor="bg-teda text-white">
+	<view class="page">
+	 	<cu-custom :isBack="true" bgColor="bg-teda text-white">
+	 		<block slot="backText">返回</block>
+	 		<block slot="content">发布</block>
+	 	</cu-custom>
+ 
+		<!-- <cu-custom bgColor="bg-teda text-white">
 
 			<block slot="content">评论</block>
-		</cu-custom>
+		</cu-custom> -->
  		<!-- <cu-custom bgColor="my_header_background" :isBack="true">
  			<block slot="content">评论</block>
  		</cu-custom> -->

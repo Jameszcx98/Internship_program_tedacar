@@ -113,12 +113,12 @@
        </navigator>
       </view>
 
-      <view class="cu-item arrow">
+      <!-- <view class="cu-item arrow">
        <navigator class="content" hover-class="none" @tap="jump('history')">
         <text class="cuIcon-read text-black"></text>
         <text class="text-grey">浏览历史</text>
        </navigator>
-      </view>
+      </view> -->
 
 
       <view class="cu-item arrow">

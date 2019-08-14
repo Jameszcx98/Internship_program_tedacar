@@ -4,6 +4,14 @@
 			<block slot="backText">返回</block>
 			<block slot="content">聊天</block>
 		</cu-custom>
+		
+		<scroll-view scroll-x class="bg-white nav">
+			<view class="flex text-center">
+				<view class="cu-item flex-sub" :class="index==TabCur?'text-teda cur':''" v-for="(item,index) in 2" :key="index" @tap="tabSelect" :data-id="index">
+					{{Tab[index]}}
+				</view>
+			</view>
+		</scroll-view>
 
 		<!-- 聊天列表 -->
 		<!-- <view class="cu-list menu-avatar" @tap="jump('chatDetail')">
@@ -17,7 +25,7 @@
 			</view>
 		</view> -->
 		
-		<div class="cu-bar padding-lr bg-white solid ">
+		<!-- <div class="cu-bar padding-lr bg-white solid ">
 			<div class="item" @click='getStatus(0)'>
 				{{ i18n.comFollow }}
 				<text class=" margin-left-xs"></text>
@@ -26,7 +34,7 @@
 				{{ i18n.comPublic }}
 				<text class=" margin-left-xs"></text>
 			</div>
-		</div>
+		</div> -->
 
 		<view class="cu-list menu-avatar" >
 			<view class="cu-item cur solid-bottom" v-for="(x,index) in chatList" :key="index" @tap="toDetail" :data-id="x.friend.objectId">
@@ -69,8 +77,11 @@
 				user2 : 'User2',
 				cId: '',    // Conversation id
 				message: 'Hey, how are you?',
-				skipnumber:0
+				skipnumber:0,
 				//followingList: [],  
+				TabCur: 0,
+				scrollLeft: 0,
+				Tab:['我关注的','未关注的']
 			};
 		},
 
@@ -83,28 +94,36 @@
 		// },
 		onShow(){
 			console.log('gsdrfgf')
-			this.getStatus(0)
+			this.tabSelect(0)
 		},
 
 	
 		onReachBottom: function() {
-			this.getStatus(10)
+			this.tabSelect(10)
 		},
 		
 		
 		onPullDownRefresh: function (){
-			this.getStatus(0)
+			this.tabSelect(0)
 		},
 		methods: {
-			getStatus(num){      //拿关注列表
-				if(num==0){
-					this.chatList = []
+			tabSelect(e) {
+				if(e==0){
+					
 					this.skipnumber = 0
+				}else if(e == 10){
+					
+					this.skipnumber+=e
 				}else{
-					this.skipnumber+=num
+				this.TabCur = e.currentTarget.dataset.id;
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
 				}
+				console.log(this.TabCur)
+				
+				this.chatList = []
 				Parse.Cloud.run('getChatList',{
-					number:this.skipnumber
+					number:this.skipnumber,
+					method:this.TabCur
 				})
 				.then( r=>{
 					r.map(x=>{
@@ -118,6 +137,29 @@
 				});
 				 
 			},
+			
+			// getStatus(num){      //拿关注列表
+			// 	if(num==0){
+			// 		this.chatList = []
+			// 		this.skipnumber = 0
+			// 	}else{
+			// 		this.skipnumber+=num
+			// 	}
+			// 	Parse.Cloud.run('getChatList',{
+			// 		number:this.skipnumber
+			// 	})
+			// 	.then( r=>{
+			// 		r.map(x=>{
+			// 		let y = x._toFullJSON()
+			// 		this.chatList.push(y)
+			// 		console.log("chatList:",JSON.stringify(this.chatList)) //x.following.wxProfile.nickName
+			// 		});
+			// 	})
+			// 	.catch(e => {
+			// 	console.log('????' + JSON.stringify(e));
+			// 	});
+			// 	 
+			// },
 			
 // 			getChatList(){
 // 				Parse.Cloud.run('getChatList')

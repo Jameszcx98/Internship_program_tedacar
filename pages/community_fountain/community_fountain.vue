@@ -131,42 +131,42 @@ import { mapState } from 'vuex';
 import data from '@/common/data.js'
 
 export default {
-	
-	data() {
-		return {
-			status: [],
-			modalName: null,
-			CustomBar: this.CustomBar, // vue 对象上
+ 
+ data() {
+  return {
+   status: [],
+   modalName: null,
+   CustomBar: this.CustomBar, // vue 对象上
             tempaddr:'https://tedacar.oss-us-east-1.aliyuncs.com/',
-			TabCur: 0,
-			scrollLeft: 0,
-			bookListone:[],
-			bookListtwo:[],
-			bookListthree:[],
-			objectId:'',
-			like:'',
-			signone:'',
-			signtwo:'',
-			signthree:'',
-			skipone:0,
-			skiptwo:0,
-			skipthree:0,
-			default:true,//进入页面默认follow
-			
-			
-			
-		};
-	},
-	
-	onShow(){
-		if(this.signone||this.default){
-			this.getStatus(0)
-			this.default = false
-		}else if(this.signtwo){
-			this.getStatushot(0)
-		}else if(this.signthree){
-			this.getStatusme(0)
-		}
+   TabCur: 0,
+   scrollLeft: 0,
+   bookListone:[],
+   bookListtwo:[],
+   bookListthree:[],
+   objectId:'',
+   like:'',
+   signone:'',
+   signtwo:'',
+   signthree:'',
+   skipone:0,
+   skiptwo:0,
+   skipthree:0,
+   default:true,//进入页面默认follow
+   
+   
+   
+  };
+ },
+ 
+ onShow(){
+  if(this.signone||this.default){
+   this.getStatus(0)
+   this.default = false
+  }else if(this.signtwo){
+   this.getStatushot(0)
+  }else if(this.signthree){
+   this.getStatusme(0)
+  }
     
  },
  
