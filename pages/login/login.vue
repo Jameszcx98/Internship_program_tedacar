@@ -22,13 +22,17 @@ export default {
  components: {},
  methods: {
   
-  connerctMagento(){
-   Parse.Cloud.run('createCustomer').then( r => {
-    console.log('r' + JSON.stringify(r));
-   }).catch( e => {
-    console.log('e' + JSON.stringify(e));
-   })
-  },
+  connerctMagento(openId,wxProfile){
+			Parse.Cloud.run('createCustomer',{
+				openId:openId,
+				wxProfile:wxProfile
+			}).then( r => {
+				
+				console.log('r' + JSON.stringify(r));
+			}).catch( e => {
+				console.log('e' + JSON.stringify(e));
+			})
+		},
   
   loginInwithWechat(res, wxProfile) {
    let that = this;
@@ -58,8 +62,8 @@ export default {
        .then(r => {
         console.log('用户信息保存成功' + JSON.stringify(r));
         uni.navigateBack({}) // 回到之前进来的页面
-        
-        that.connerctMagento() // 同步用户信息到magento
+        let openId = r._toFullJSON().authData.weapp.id
+        that.connerctMagento(openId,wxProfile)  // 同步用户信息到magento
 
        })
        .catch(e => {

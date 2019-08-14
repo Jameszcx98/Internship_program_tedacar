@@ -16,15 +16,15 @@
  			</view>
  
  			<view class="">
- 				<button class="margin padding-lr text-white bg-gradual-bingbang" type="primary" @tap="submit">
- 					<text class="text-white"> 发送 </text>
+ 				<button class="bg-teda margin padding-lr "  @tap="submit">
+ 					<text class="text-white bg-teda"> 发送 </text>
  				</button>
  			</view>
  		</view>
  
  		
  		
- 		<view v-if="true" style="margin-top: 20upx;">
+ 		<view v-if="isShow" style="margin-top: 20upx;">
  			<view class="cu-bar bg-white margin-top">
  				<view class="action">
  					图片上传
@@ -62,14 +62,12 @@ export default {
 	data() {
 		
 		return {
-			initDate: {},
+			initDate: {
+				desc:'请输入内容'
+			},
 			formInput: {
-				
-				title: '',
+				title: '有什么想说的',
 				desc: '',
-				
-				
-				
 			},
 	
 
@@ -114,15 +112,16 @@ export default {
 			//侧滑返回start
 			startX: 0, //点击屏幕起始位置
 			movedX: 0, //横向移动的距离
-			endX: 0 //接触屏幕后移开时的位置
+			endX: 0 ,//接触屏幕后移开时的位置,
+			isShow:true
 			//end
 		};
 	},
 	onLoad(options) {
 		console.log('options' + JSON.stringify(options));
 		this.initDate = options;
-		console.log('jjhhjjjj'+JSON.stringify(this.$store.state.wxProfile));
-		console.log('jjhhjjjj'+JSON.stringify(this.oosArr));
+		if(this.initDate.commentId=='undefined'){this.isShow=true}else{this.isShow=false}
+	
 	},
 	onUnload() {
 		(this.imageList = []),
@@ -142,7 +141,10 @@ export default {
 	},
 	methods: {
 		submit() {
-			
+			this.formInput.targetId=this.initDate.targetId
+			this.formInput.targetName=this.initDate.targetName
+			this.formInput.commentId=this.initDate.commentId
+			// this.formInput.targetId=this.initDate.targetId
 			var rule = [
 				// 初步检查发布的内容
 				{ name: 'title', checkType: 'string', checkRule: '3,50', errorMsg: this.$t('index.ErrTitleLong') },
@@ -185,15 +187,15 @@ export default {
 			
 			
 			
-			if (this.initDate.targetId && this.initDate.targetName) {
-			
+			if (this.initDate.targetId && this.initDate.targetName&&this.initDate.commentId!='undefined') {
+			// console.log('+++++')
 				finalFormInput = Object.assign(this.formInput, {
 					targetId: this.initDate.targetId,
 					targetName: this.initDate.targetName,
 					// commentId: this.initDate.commentId 
 				});
 			} else {
-				
+				// console.log('---------')
 				finalFormInput=this.formInput;
 				var i=0;
 				for(var key in this.oosArr)
@@ -205,7 +207,7 @@ export default {
 				
 				image = {img:temp};
 				Object.assign(finalFormInput,image);
-				
+				 console.log('---------'+JSON.stringify(finalFormInput))
 				
 			}
 			

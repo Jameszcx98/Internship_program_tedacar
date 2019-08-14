@@ -227,10 +227,13 @@
   
 // 
   methods: {
-   getUser(){//获取用户信息
+	getUser(){//获取用户信息
 		let userInfo=Parse.User.current()._toFullJSON();
-		this.userImg=userInfo.wxProfile.avatarUrl
-		this.userName=userInfo.wxProfile.nickName
+		// if(!!userInfo.wxProfile.avatarUrl){
+			this.userImg=userInfo.wxProfile.avatarUrl
+			this.userName=userInfo.wxProfile.nickName
+		// }
+		
 				
 	},
    getuserStatus(){
