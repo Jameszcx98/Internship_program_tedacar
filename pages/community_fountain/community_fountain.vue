@@ -291,7 +291,8 @@ export default {
 				title: true,
 				type: 'postStatus',
 				tip: '',
-				desc: ''
+				desc: '',
+				commentId:'undefined'
 			};
 			uni.navigateTo({
 				url: '../publish/publish?' + toParams(p)
