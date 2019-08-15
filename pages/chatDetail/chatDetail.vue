@@ -160,15 +160,19 @@
 				user2: '',    // Guest (him)
 				messages: [],    // Messages list from the firebase
 				message: '',    // Message to be sent
-				
+				ele:{}
 			};
 		},
 		
-
+		
+		// updated(){
+		// 		// 聊天定位到底部
+		// 		  ele = document.getElementById('this.messages');
+		// 		  ele.scrollTop = ele.scrollHeight;
+		// 	  },
 		
 		onShow() {
 			this.chatOppId = this.$root.$mp.query.id;
-			console.log('dgafaaa'+this.chatOppId)
 			this.getConversation() 
 			// init(this.callLiveQuery);		
 			this.getUpdateNews();
@@ -189,11 +193,16 @@
 					}else{
 					r.map(x=>x._toFullJSON())
 					this.messages = r;
-					
 					let i = this.messages[0]._toFullJSON()
 					this.hostId = i.userId
-					console.log('fagfraedaa'+this.hostId)
-					console.log('ardfafa'+JSON.stringify(this.messages))
+					let io = this.messages.length
+					setTimeout(function() {
+						const query = uni.createSelectorQuery().in(this);
+						query.select('#id-selector').boundingClientRect(data => {
+						  console.log("得到布局位置信息" + JSON.stringify(data));
+						  console.log("节点离页面顶部的距离为" + data.top);
+						}).exec();
+					}, 1000);
 					uni.pageScrollTo({
 						scrollTop: 250,
 						duration: 300
@@ -223,17 +232,8 @@
 					})
 				subscriptionNews.on('create', (object)=>{
 						let x = object._toFullJSON()
-						let y = this.messages[0].toString()
 						if( this.chatOppId == x.from.objectId||x.from.objectId == this.hostId){
 							if(x.to.objectId == this.chatOppId||x.to.objectId == this.hostId){
-								
-								console.log('gdaf'+x.to.objectId)
-								if(x.to.objectId == this.chatOppId)
-								console.log('this.chatOppId',this.chatOppId)
-								if(x.to.objectId == this.hostId)
-								console.log('this.hostId',this.hostId)
-								if(x.to.object == this.messages[0].userId)
-								console.log('this.messages[0].userId',JSON.stringify(y.userId))
 								this.messages.push(x)
 							}
 							
