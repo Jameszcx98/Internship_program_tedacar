@@ -1,7 +1,7 @@
 <template>
 	<view style="margin-bottom: 100upx;">
 		<cu-custom bgColor="bg-teda">
-			<!-- <block slot="content">{{ i18n.com }}</block> -->
+			<block slot="content">{{ i18n.com }}</block>
 		</cu-custom>
 			
 		<!-- 工具栏 -->

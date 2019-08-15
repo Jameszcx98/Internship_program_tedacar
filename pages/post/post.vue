@@ -1,6 +1,6 @@
 <template>
 	<view style="margin-bottom: 100upx;">
-		<cu-custom :isBack="true" bgColor="bg-teda text-white">
+		<cu-custom :isBack="false" bgColor="bg-teda text-white">
 			<block slot="backText">返回</block>
 			<block slot="content">车辆信息</block>
 		</cu-custom>

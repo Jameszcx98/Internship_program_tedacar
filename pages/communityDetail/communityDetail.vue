@@ -1,12 +1,13 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-white" :isBack="true">
-			<block slot="backText" @click="jump('my')">
+		<cu-custom bgColor="bg-teda" :isBack="true">
+			<block slot="backText" >
 				<view v-if="user.wxProfile" class="cu-avatar round" :style="'background-image:url(' + user.wxProfile.avatarUrl + '); margin: 0 ;'"></view>
 				<p v-if="user.wxProfile" class="margin-lr">{{ user.wxProfile.nickName }}</p>
-				<div v-if='item.followSign' class="cu-tag bg-gray radius" @click='unfollow'>已关注</div>
-				<div v-else class="cu-tag bg-red radius" @click='follow'>关注</div>
+				<div  v-if='item.followSign' class="cu-tag bg-gray radius" @tap.stop='unfollow'>已关注</div>
+				<div  v-else class="cu-tag bg-red radius" @tap.stop='follow'>关注</div>
 			</block>
+			
 		</cu-custom>
 		
 		<view class="cu-bar bg-white solid-bottom">
@@ -122,7 +123,8 @@
 				tags: [],
 				cardData: [],
 				commentNum:[],
-				desc:''
+				desc:'',
+				userId:''
 			
 			};
 		},
@@ -155,8 +157,6 @@
 				// console.log('this.commentNum'+JSON.stringify(this.commentNum))
 			},
 			getComment(){//顶级评论
-				
-				
 				new Parse.Query('Comment').equalTo('ifFather',true).equalTo('isDisabling',true).equalTo('targetId',this.detailId).descending('createdAt').include('user')
 				.find()
 				.then(r=>{
@@ -164,6 +164,7 @@
 					this.setTime()
 					this.getTwoComment()
 					this.user=this.commentNum[0].user.wxProfile
+					// this.userId=this.commentNum[0].user.objectId
 					})
 				.catch(e=>{console.log(JSON.stringify(e))})
 				// setTimeout(()=>{
@@ -175,7 +176,7 @@
 				// if (this.commentNum.length < 1) return this.isloading = false; //关闭load
 				// console.log('ccccccc'+JSON.stringify(this.commentNum))
 				this.commentNum.forEach((item, index) => {
-					console.log('8888'+item.objectId)
+					// console.log('8888'+item.objectId)
 					
 					let commentPointer = Parse.Object.extend('Comment').createWithoutData(item.objectId);
 					// console.log('bbbbb'+JSON.stringify(commentPointer))
@@ -219,16 +220,18 @@
 			},
 			 getDetail() {
 				
-				console.log('jznvoia'+JSON.stringify(this.idlist));
+				// console.log('jznvoia'+JSON.stringify(this.idlist));
 				let r =  Parse.Cloud.run('getStatusDetail', {
 					id: this.detailId ,
 				}).then(r => {
 					this.item = r._toFullJSON();
+					console.log('0900900'+JSON.stringify(this.item));
 					this.user = r._toFullJSON().user;
 					var temp = this.item.image.map( x=>{
 						 x = 'https://tedacar.oss-us-east-1.aliyuncs.com/'+x;
 						 return x;
 					})
+					
 					// for(let num=0;num<temp.length;num++)
 					// {   
 					// 	let tempt = {}
@@ -263,6 +266,8 @@
 			let r = Parse.Cloud.run('follow',{
 				id: this.item.user.objectId
 			}).then()
+			this.getDetail()
+		
 			
 		},
 		unfollow(){
@@ -270,6 +275,7 @@
 			let r = Parse.Cloud.run('unfollow',{
 				id: this.item.user.objectId
 			}).then()
+			this.getDetail()
 			
 		},
 			

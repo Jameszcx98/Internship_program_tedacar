@@ -1,6 +1,6 @@
 <template>
  <div class="my">
-  <cu-custom bgColor="bg-teda" :isBack="true">
+  <cu-custom bgColor="bg-teda" :isBack="false">
    <block slot="backText">{{i18n.commonBack}}</block>
    <block slot="content">{{i18n.myTitle}}</block>
   </cu-custom>
