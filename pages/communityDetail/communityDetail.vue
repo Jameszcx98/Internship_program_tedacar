@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-white" :isBack="true">
-			<block slot="backText" @click="jump('my')">
+			<block slot="backText" >
 				<view v-if="user.wxProfile" class="cu-avatar round" :style="'background-image:url(' + user.wxProfile.avatarUrl + '); margin: 0 ;'"></view>
 				<p v-if="user.wxProfile" class="margin-lr">{{ user.wxProfile.nickName }}</p>
 				<div v-if='item.followSign' class="cu-tag bg-gray radius" @click='unfollow'>已关注</div>

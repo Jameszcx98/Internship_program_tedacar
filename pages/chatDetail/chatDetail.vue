@@ -153,8 +153,8 @@
 			return {
 				InputBottom: 0,
 				isRouterAlive: true,    // Used to reload page
-				hostId:'',
-				chatOppId: '',
+				hostId:'',//我的id
+				chatOppId: '',//好友的id
 				cId: '',    // Conversation id
 				user1: '',    // Host (me)
 				user2: '',    // Guest (him)
@@ -185,10 +185,14 @@
 					number:0
 				}).then( r => {
 					if(r[0].length ==1){
-						this.hostId = r[0]
+						this.hostId = r[0]//没有聊天记录
 					}else{
 					r.map(x=>x._toFullJSON())
 					this.messages = r;
+					
+					let i = this.messages[0]._toFullJSON()
+					this.hostId = i.userId
+					console.log('fagfraedaa'+this.hostId)
 					console.log('ardfafa'+JSON.stringify(this.messages))
 					uni.pageScrollTo({
 						scrollTop: 250,
@@ -219,8 +223,17 @@
 					})
 				subscriptionNews.on('create', (object)=>{
 						let x = object._toFullJSON()
-						if( this.chatOppId == x.from.objectId||x.from.objectId == this.hostId||x.from.object == this.messages[0].userId){
-							if(x.to.objectId == this.chatOppId||x.to.objectId == this.hostId||x.to.object == this.messages[0].userId){
+						let y = this.messages[0].toString()
+						if( this.chatOppId == x.from.objectId||x.from.objectId == this.hostId){
+							if(x.to.objectId == this.chatOppId||x.to.objectId == this.hostId){
+								
+								console.log('gdaf'+x.to.objectId)
+								if(x.to.objectId == this.chatOppId)
+								console.log('this.chatOppId',this.chatOppId)
+								if(x.to.objectId == this.hostId)
+								console.log('this.hostId',this.hostId)
+								if(x.to.object == this.messages[0].userId)
+								console.log('this.messages[0].userId',JSON.stringify(y.userId))
 								this.messages.push(x)
 							}
 							

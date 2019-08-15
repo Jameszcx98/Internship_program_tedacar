@@ -53,7 +53,7 @@
 					</view>
 					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="tofollowerList" :data-id = 'userInfo.objectId'>
 						粉丝{{userInfo.follower}}
-						<view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view>
+						<!-- <view v-if = 'addStatus' class="cu-tag badge">{{addNumber}}+</view> -->
 					</view>
 					<view class=' cu-avatar sm radius text-black' style="width: 150upx;margin-left: 50upx;" @tap="tofollowingList" :data-id = 'userInfo.objectId' >
 						关注{{userInfo.following}}
@@ -197,9 +197,9 @@
   // },
   onShow(){
    this.getuserStatus();
-   this.getUpdateNews();
-   this.getUser()
+   
    // this.getUpdateFollower();
+   this.getUpdateNews();
   
   },
   created() {},
@@ -214,7 +214,7 @@
     listData: [],
     Listids: [],
 	addNumber:'',
-	addStatus:'',
+	// addStatus:'',
 	newsNumber:0,
  	newsStatus:'',
 	addFollowerNumber:0,
@@ -227,16 +227,11 @@
   
 // 
   methods: {
-   getUser(){//获取用户信息
-		let userInfo=Parse.User.current()._toFullJSON();
-		this.userImg=userInfo.wxProfile.avatarUrl
-		this.userName=userInfo.wxProfile.nickName
-				
-	},
+  
    getuserStatus(){
 	   
 	
-	this.addStatus = false
+	// this.addStatus = false
 	this.newsStatus = false
     Parse.Cloud.run('userInfo')
     .then(r=>{
@@ -271,12 +266,12 @@
 		// 	object = object._toFullJSON()
 		// 	console.log('gada'+object.user.objectId)
 		// 	if(this.userInfo.objectId == object.user.objectId){
-		// 	this.addNumber = object.follower - this.userInfo.follower
-		// 	if(this.addNumber > 0 ){
-		// 		this.addStatus = true
-		// 	}else{
-		// 		this.addStatus = false
-		// 	}
+		// 	// this.addNumber = object.follower - this.userInfo.follower
+		// 	// if(this.addNumber > 0 ){
+		// 	// 	this.addStatus = true
+		// 	// }else{
+		// 	// 	this.addStatus = false
+		// 	// }
 		// 	// this.addNumberTwo = object.get('following') - this.userInfo.following
 	 //   		this.userInfo.likenumber = object.like
 	 //   		this.userInfo.follower = object.follower
@@ -296,7 +291,6 @@
 		
 		let queryNews = new Parse.Query('News');
 		let subscriptionNews = queryNews.subscribe();
-		console.log('gdafgar')
 		subscriptionNews.on('open', ()=>{
 			console.log('aseragga')
 			})
